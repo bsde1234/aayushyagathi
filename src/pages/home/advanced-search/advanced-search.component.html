@@ -1,0 +1,47 @@
+<ion-content>
+  <form [formGroup]="searchForm">
+    <ion-item>
+      <ion-label color="primary" floating>Education</ion-label>
+      <ion-select formControlName="education">
+        <ion-option [value]="i" *ngFor="let edu of CONSTANTS.EDUCATION;let i=index">{{ edu }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Occupation</ion-label>
+      <ion-select multiple="true" formControlName="occupation">
+        <ion-option [value]="i" *ngFor="let job of CONSTANTS.OCCUPATION;let i=index">{{ job }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Annual Income</ion-label>
+      <ion-select formControlName="income">
+        <ion-option [value]="i" *ngFor="let income of CONSTANTS.INCOME_RANGE;let i=index;">{{ income }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>Complexion</ion-label>
+      <ion-select formControlName="complexion">
+        <ion-option [value]="i" *ngFor="let complexion of CONSTANTS.COMPLEXION; let i=index">{{complexion}}</ion-option>
+      </ion-select>
+      <button>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary">Age</ion-label>
+      <ion-range formControlName="age" dualKnobs="true" min="18" max="40" step="1" color="primary">
+        <ion-label range-left>{{ ageRange.value?.lower }}</ion-label>
+        <ion-label range-right>{{ ageRange.value?.upper }}</ion-label>
+      </ion-range>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>City</ion-label>
+      <ion-input formControlName="city" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" floating>State</ion-label>
+      <ion-input formControlName="state" type="text"></ion-input>
+    </ion-item>
+  </form>
+  <button ion-button type="submit" block (click)="search()">Search</button>
+</ion-content>

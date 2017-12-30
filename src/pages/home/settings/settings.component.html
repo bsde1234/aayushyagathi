@@ -1,0 +1,19 @@
+<ion-content>
+  <ion-list>
+    <ion-item (click)="viewProfile()" >
+      <ion-avatar item-start>
+          <img [src]="user?.profile?.photos?user?.profile?.photos[0]:noPhoto" /> 
+      </ion-avatar>
+      <h2>{{user?.profile?.firstName}} {{ user?.profile?.lastName }}</h2>
+      <p>Edit your profile</p>
+    </ion-item>
+    <ion-item (click)="aboutUs()">
+      <ion-icon item-start name="information-circle"></ion-icon>
+      <h2>About Us</h2>
+    </ion-item>
+    <ion-item (click)="logout()">
+      <ion-icon item-start name="power"></ion-icon>
+      <h2>Logout</h2>
+    </ion-item>
+  </ion-list>
+</ion-content>

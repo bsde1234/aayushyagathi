@@ -3,37 +3,41 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import * as firebase from 'firebase';
+
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { environment } from '../environment'
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../pages/login/login.component';
+import PAGES from '../pages'
+import { SharedModule } from '../shared/shared.module'
+import { AppService } from './app.service';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    LoginComponent
+    LoginComponent,
+    ...PAGES
   ],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    SharedModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    LoginComponent
+    LoginComponent,
+    ...PAGES
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    AppService
   ]
 })
 export class AppModule { }

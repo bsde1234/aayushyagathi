@@ -1,14 +1,22 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+<ion-header no-border>
+  <ion-navbar color="primary">
+    <ion-title>Aayushyagathi</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="notifications"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+  <!-- <ion-toolbar color="primary">
+    <ion-searchbar [animated]="true"></ion-searchbar>
+  </ion-toolbar> -->
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content>
+  <ion-tabs color="primary">
+    <ion-tab [root]="suggestions" tabIcon="home"></ion-tab>
+    <ion-tab [root]="advSearch" tabIcon="search"></ion-tab>
+    <ion-tab [root]="favourite" tabIcon="heart"></ion-tab>
+    <ion-tab [root]="settings" tabIcon="cog"></ion-tab>
+  </ion-tabs>
 </ion-content>

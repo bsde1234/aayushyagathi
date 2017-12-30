@@ -1,0 +1,11 @@
+<ion-card (click)="showProfile(user._id)">
+  <img [src]="user?.profile?.photos?profile?.photos[0]:noPhoto" />
+  <ion-card-content>
+    <ion-card-title>
+      {{user?.profile?.firstName}} {{user?.profile?.lastName}}
+    </ion-card-title>
+    <p>
+      {{user?.profile?.about}}
+    </p>
+  </ion-card-content>
+</ion-card>

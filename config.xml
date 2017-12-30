@@ -90,9 +90,11 @@
         <variable name="URL_SCHEME" value="com.dlinx.aayushyagathi" />
     </plugin>
     <universal-links>
-      <host name="com.dlinx.aayushyagathi" scheme="https">
-          <path url="/__/auth/callback"/>
-      </host>
+        <host name="https://a46tx.app.goo.gl" scheme="https" />
+        <host name="com.dlinx.aayushyagathi" scheme="https">
+            <path url="/__/auth/callback" />
+        </host>
     </universal-links>
     <preference name="AndroidLaunchMode" value="singleTask" />
+    <engine name="android" spec="~6.3.0" />
 </widget>
