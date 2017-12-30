@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Firebase } from '@ionic-native/firebase';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'aa-login',
@@ -7,7 +9,9 @@ import { Firebase } from '@ionic-native/firebase';
   styleUrls: ['/login.component.scss']
 })
 export class LoginComponent {
-  constructor(private firebase: Firebase) {
-
+  constructor(private afAuth: AngularFireAuth) {
+  }
+  login() {
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 }
