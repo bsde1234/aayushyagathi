@@ -1,5 +1,7 @@
 import { Component } from '@angular/core'
 import { NavParams, NavController } from 'ionic-angular'
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'page-profile',
@@ -8,16 +10,23 @@ import { NavParams, NavController } from 'ionic-angular'
 export class ProfileComponent {
   private favourites: any
   profileData: any
-  CONSTANTS = {}
-  noPhoto: string = 'images/placeholder.png'
+  CONSTANTS
+  noPhoto: string = '../assets/imgs/placeholder.png'
   profileId: string;
 
   constructor(private params: NavParams,
-    private navCtrl: NavController) {
+    private navCtrl: NavController,
+    private afs: AngularFirestore) {
   }
 
   ngOnInit() {
     this.profileId = this.params.get('profileId')
+    this.afs.collection('profiles')
+      .doc(this.profileId).valueChanges()
+      .subscribe(data => {
+        if (data)
+          this.profileData = data['profile'];
+      })
     // this.profileData = Meteor.users.findOne(this.profileId).profile;
     // this.favourites = Meteor.user().profile.favourite;
   }

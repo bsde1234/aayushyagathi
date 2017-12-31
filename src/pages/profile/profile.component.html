@@ -46,7 +46,7 @@
         </ion-item>
         <ion-item>
           <p>Gender:</p>
-          <h2>{{ CONSTANTS.GENDER[profileData?.gender] || "-" }}</h2>
+          <h2>{{ CONSTANTS?.GENDER[profileData?.gender] || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>Birthdate:</p>
@@ -58,11 +58,11 @@
         </ion-item>
         <ion-item>
           <p>Complexion:</p>
-          <h2>{{ CONSTANTS.COMPLEXION[profileData?.complexion] || "-" }}</h2>
+          <h2>{{ CONSTANTS?.COMPLEXION[profileData?.complexion] || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>Mothertongue:</p>
-          <h2>{{ CONSTANTS.LANGUAGES[profileData?.motherTongue] || "-" }}</h2>
+          <h2>{{ CONSTANTS?.LANGUAGES[profileData?.motherTongue] || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>Known Languages:</p>
@@ -97,17 +97,17 @@
         <ion-item-divider color="light">Occupation</ion-item-divider>
         <ion-item>
           <p>Education:</p>
-          <h2>{{ CONSTANTS.EDUCATION[profileData?.education] }}</h2>
+          <h2>{{ CONSTANTS?.EDUCATION[profileData?.education] }}</h2>
           <h2 *ngIf="profileData?.education===0">{{ profileData?.otherEducation || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>Occupation:</p>
-          <h2>{{ CONSTANTS.OCCUPATION[profileData?.occupation] }}</h2>
+          <h2>{{ CONSTANTS?.OCCUPATION[profileData?.occupation] }}</h2>
           <h2 *ngIf="profileData?.occupation===0">{{ profileData?.otherOccupation || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>Annual Income:</p>
-          <h2>{{ CONSTANTS.INCOME_RANGE[profileData?.income] || "-" }}</h2>
+          <h2>{{ CONSTANTS?.INCOME_RANGE[profileData?.income] || "-" }}</h2>
         </ion-item>
       </ion-item-group>
     </ion-card-content>
@@ -118,15 +118,15 @@
         <ion-item-divider color="light">Partner Expection</ion-item-divider>
         <ion-item>
           <p>Education:</p>
-          <h2>{{ CONSTANTS.EDUCATION[profileData?.partner?.education] || "-" }}</h2>
+          <h2>{{ CONSTANTS?.EDUCATION[profileData?.partner?.education] || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>Income:</p>
-          <h2>{{ CONSTANTS.INCOME_RANGE[profileData?.partner?.income] || "-" }}</h2>
+          <h2>{{ CONSTANTS?.INCOME_RANGE[profileData?.partner?.income] || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>Occupation:</p>
-          <h2>{{ CONSTANTS.OCCUPATION[profileData?.partner?.occupation] || "-" }}</h2>
+          <h2>{{ CONSTANTS?.OCCUPATION[profileData?.partner?.occupation] || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>Height:</p>
@@ -138,7 +138,7 @@
         </ion-item>
         <ion-item>
           <p>Complexion:</p>
-          <h2>{{ CONSTANTS.COMPLEXION[profileData?.partner?.complexion] || "-" }}</h2>
+          <h2>{{ CONSTANTS?.COMPLEXION[profileData?.partner?.complexion] || "-" }}</h2>
         </ion-item>
         <ion-item>
           <p>City:</p>

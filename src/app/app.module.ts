@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { environment } from '../environment'
 import { MyApp } from './app.component';
@@ -13,7 +14,7 @@ import { LoginComponent } from '../pages/login/login.component';
 import PAGES from '../pages'
 import { SharedModule } from '../shared/shared.module'
 import { AppService } from './app.service';
-
+import { ErrorHanderService } from './error-handler.service';
 @NgModule({
   declarations: [
     MyApp,
@@ -23,8 +24,9 @@ import { AppService } from './app.service';
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
     SharedModule,
+    AngularFireAuthModule,
+    AngularFirestoreModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -36,7 +38,7 @@ import { AppService } from './app.service';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    { provide: ErrorHandler, useClass: ErrorHanderService },
     AppService
   ]
 })

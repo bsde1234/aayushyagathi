@@ -1,5 +1,7 @@
 import { Component } from '@angular/core'
 import { NavController, ModalController } from 'ionic-angular'
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
 
 import { ProfileComponent } from '../../profile/profile.component'
 
@@ -9,10 +11,20 @@ import { ProfileComponent } from '../../profile/profile.component'
   templateUrl: './suggestions.component.html'
 })
 export class SuggestionsComponent {
-  featured: any
+  featured: Observable<any[]>;
 
   constructor(private navCtrl: NavController,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController,
+    private afs: AngularFirestore) {
+    let featuredCollection = this.afs.collection<any>('profiles')
+    this.featured = featuredCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const _id = a.payload.doc.id;
+          return { _id, ...data };
+        });
+      });
   }
 
   ngOnInit() {
