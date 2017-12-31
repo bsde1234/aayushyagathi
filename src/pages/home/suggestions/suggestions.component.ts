@@ -4,7 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Observable } from 'rxjs/Observable';
 
 import { ProfileComponent } from '../../profile/profile.component'
-
+import { AppService } from '../../../app/app.service';
 
 @Component({
   selector: 'page-suggestions',
@@ -15,7 +15,8 @@ export class SuggestionsComponent {
 
   constructor(private navCtrl: NavController,
     private modalCtrl: ModalController,
-    private afs: AngularFirestore) {
+    private afs: AngularFirestore,
+    private appService: AppService) {
     let featuredCollection = this.afs.collection<any>('profiles')
     this.featured = featuredCollection.snapshotChanges()
       .map(actions => {

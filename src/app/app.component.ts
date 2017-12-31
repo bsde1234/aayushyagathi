@@ -6,6 +6,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../pages/login/login.component'
+import { AngularFirestore } from 'angularfire2/firestore';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -14,10 +16,20 @@ export class MyApp {
   constructor(platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    afire: AngularFireAuth) {
-    afire.authState.subscribe((data) => {
-      if (data)
+    afire: AngularFireAuth,
+    afs: AngularFirestore) {
+    afire.authState.subscribe((user) => {
+      if (user) {
         this.rootPage = HomePage;
+        const profileDoc = afs.collection('profile').doc(user.uid);
+
+        profileDoc.valueChanges()
+          .subscribe(profile => {
+            console.log(profile)
+          }, (err) => {
+            profileDoc.set({ name: user.displayName })
+          })
+      }
       else
         this.rootPage = LoginComponent;
     })
