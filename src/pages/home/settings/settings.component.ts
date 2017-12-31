@@ -11,7 +11,7 @@ import { EditProfileComponent } from '../../edit-profile/edit-profile.component'
 })
 export class SettingsComponent {
   user
-  noPhoto: string = 'images/placeholder.png'
+  noPhoto: string = '../assets/imgs/placeholder.png'
   constructor(private navCtrl: NavController,
     private app: App,
     private appService: AppService,

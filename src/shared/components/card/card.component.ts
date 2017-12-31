@@ -10,7 +10,7 @@ import { ProfileComponent } from '../../../pages/profile/profile.component'
 
 export class UserProfileComponent {
   @Input() user;
-  noPhoto: string = 'images/placeholder.png'
+  noPhoto: string = '../assets/imgs/placeholder.png'
   constructor(private modalCtrl: ModalController) {
 
   }

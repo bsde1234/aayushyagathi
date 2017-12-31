@@ -47,7 +47,7 @@ export class personalInfoComponent {
       complexion, motherTongue, knownLanguages, permAddress: { address, city, state } }) => ({
         firstName, lastName, about, gender, fatherName, dob, height,
         complexion, motherTongue, knownLanguages, permAddress: { address, city, state }
-      }))(this.profile);
+      }))(this.profile || { permAddress: {} });
     if (personalInfoValue.dob)
       personalInfoValue.dob = (<Date>personalInfoValue.dob).toISOString()
     this.personalInfo.patchValue(personalInfoValue)

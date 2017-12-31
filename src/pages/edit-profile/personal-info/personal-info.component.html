@@ -15,7 +15,7 @@
     <ion-item>
       <ion-label color="primary" floating>Gender</ion-label>
       <ion-select formControlName="gender" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let gender of CONSTANTS.GENDER;let i=index">{{ gender }}</ion-option>
+        <ion-option [value]="i" *ngFor="let gender of CONSTANTS?.GENDER;let i=index">{{ gender }}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
@@ -33,19 +33,19 @@
     <ion-item>
       <ion-label color="primary" floating>Complexion</ion-label>
       <ion-select formControlName="complexion" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let complexion of CONSTANTS.COMPLEXION;let i=index">{{complexion}}</ion-option>
+        <ion-option [value]="i" *ngFor="let complexion of CONSTANTS?.COMPLEXION;let i=index">{{complexion}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Mothertongue</ion-label>
       <ion-select formControlName="motherTongue" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let lang of CONSTANTS.LANGUAGES;let i=index;">{{lang}}</ion-option>
+        <ion-option [value]="i" *ngFor="let lang of CONSTANTS?.LANGUAGES;let i=index;">{{lang}}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Known Languages</ion-label>
       <ion-select multiple="true" formControlName="knownLanguages">
-        <ion-option [value]="i" *ngFor="let lang of CONSTANTS.LANGUAGES;let i=index">{{lang}}</ion-option>
+        <ion-option [value]="i" *ngFor="let lang of CONSTANTS?.LANGUAGES;let i=index">{{lang}}</ion-option>
       </ion-select>
     </ion-item>
     <div formGroupName="permAddress">
