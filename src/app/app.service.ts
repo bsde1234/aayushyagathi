@@ -11,7 +11,7 @@ export class AppService {
   userData$: Observable<any>;
 
   myProfileDoc: AngularFirestoreDocument<any>;
-  myProfile$: Observable<any> = new Observable<any>();
+  myProfile$: Subject<any> = new Subject<any>();
 
   constructor(private alertCtrl: AlertController,
     private toastCtrl: ToastController,
@@ -22,7 +22,9 @@ export class AppService {
     this.userData$ = this.userDataDoc.valueChanges();
 
     this.myProfileDoc = this.afs.collection('profiles').doc(this.afAuth.auth.currentUser.uid);
-    this.myProfile$ = this.myProfileDoc.valueChanges();
+    this.myProfileDoc.valueChanges().subscribe(profile => {
+      this.myProfile$.next(profile);
+    });
   }
 
   toggleShortlist(id, favourites) {

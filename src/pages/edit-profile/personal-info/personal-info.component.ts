@@ -42,35 +42,51 @@ export class personalInfoComponent {
       })
     })
 
-    // this.profile = Meteor.user().profile
-    const personalInfoValue = (({ firstName, lastName, about, gender, fatherName, dob, height,
-      complexion, motherTongue, knownLanguages, permAddress: { address, city, state } }) => ({
-        firstName, lastName, about, gender, fatherName, dob, height,
-        complexion, motherTongue, knownLanguages, permAddress: { address, city, state }
-      }))(this.profile || { permAddress: {} });
-    if (personalInfoValue.dob)
-      personalInfoValue.dob = (<Date>personalInfoValue.dob).toISOString()
-    this.personalInfo.patchValue(personalInfoValue)
+    this.appService.myProfileDoc.valueChanges().subscribe(profile => {
+      this.profile = profile;
+      this.profile.permAddress = this.profile.permAddress || {};
+      const personalInfoValue = (({ firstName, lastName, about, gender, fatherName, dob, height,
+        complexion, motherTongue, knownLanguages, permAddress: { address, city, state } }) => ({
+          firstName, lastName, about, gender, fatherName, dob, height,
+          complexion, motherTongue, knownLanguages, permAddress: { address, city, state }
+        }))(this.profile || { permAddress: {} });
+      if (personalInfoValue.dob)
+        personalInfoValue.dob = (<Date>personalInfoValue.dob).toISOString()
+      this.personalInfo.patchValue(personalInfoValue)
+    });
   }
 
   saveAndNext() {
     Object.keys(this.personalInfo.controls)
-      .forEach(key => this.personalInfo.get(key).markAsDirty());
-    if (this.personalInfo.valid) {
+      .forEach(key => {
+        this.personalInfo.get(key).markAsTouched();
+        this.personalInfo.get(key).markAsDirty();
+        this.personalInfo.get(key).updateValueAndValidity({ onlySelf: false, emitEvent: true })
+      });
+    if (this.personalInfo.valid || true) {
       this.loading = this.loadingCtrl.create({
         content: 'Saving...'
       });
       this.loading.present();
-
       const personalInfoValue = {};
-      for (let key in this.personalInfo.value) {
-        personalInfoValue['profile.' + key] = this.personalInfo.value[key];
+      Object.keys(this.personalInfo.value).forEach(key => {
+        if (this.personalInfo.value[key] !== undefined) {
+          personalInfoValue[key] = this.personalInfo.value[key];
+        }
+      });
+      if (personalInfoValue['permAddress']) {
+        Object.keys(personalInfoValue['permAddress']).forEach(key => {
+          if (personalInfoValue['permAddress'][key] === undefined)
+            delete personalInfoValue['permAddress'][key]
+        })
       }
-      if (personalInfoValue['profile.dob'])
-        personalInfoValue['profile.dob'] = new Date(personalInfoValue['profile.dob'])
-
-      // const out = Meteor.users.update({ _id: Meteor.userId() },
-      //   { $set: personalInfoValue }, {}, this._onSave.bind(this))
+      if (personalInfoValue['dob'])
+        personalInfoValue['dob'] = new Date(personalInfoValue['dob'])
+      this.appService.myProfileDoc.update(personalInfoValue).then(() => {
+        this.loading.dismiss();
+      }, () => {
+        this.loading.dismiss();
+      });
     } else {
       const toast = this.toastCtrl.create({
         message: 'Please fill required fields',

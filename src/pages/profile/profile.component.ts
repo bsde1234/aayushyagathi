@@ -24,8 +24,9 @@ export class ProfileComponent {
     this.afs.collection('profiles')
       .doc(this.profileId).valueChanges()
       .subscribe(data => {
-        if (data)
-          this.profileData = data['profile'];
+        if (data) {
+          this.profileData = data;
+        }
       })
     // this.profileData = Meteor.users.findOne(this.profileId).profile;
     // this.favourites = Meteor.user().profile.favourite;

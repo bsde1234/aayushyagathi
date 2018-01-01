@@ -20,9 +20,9 @@ export class SettingsComponent {
   }
 
   ngOnInit() {
-    this.appService.myProfile$.subscribe(profile => {
+    this.appService.myProfileDoc.valueChanges().subscribe(profile => {
       this.profile = profile;
-    })
+    });
   }
 
   logout() {
