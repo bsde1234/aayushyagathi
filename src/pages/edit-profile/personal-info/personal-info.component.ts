@@ -63,7 +63,7 @@ export class personalInfoComponent {
         this.personalInfo.get(key).markAsDirty();
         this.personalInfo.get(key).updateValueAndValidity({ onlySelf: false, emitEvent: true })
       });
-    if (this.personalInfo.valid || true) {
+    if (this.personalInfo.valid) {
       this.loading = this.loadingCtrl.create({
         content: 'Saving...'
       });
@@ -83,21 +83,22 @@ export class personalInfoComponent {
       if (personalInfoValue['dob'])
         personalInfoValue['dob'] = new Date(personalInfoValue['dob'])
       this.appService.myProfileDoc.update(personalInfoValue).then(() => {
-        this.loading.dismiss();
-      }, () => {
-        this.loading.dismiss();
+        this._onSave();
+      }, (err) => {
+        this._onSave(err);
       });
     } else {
       const toast = this.toastCtrl.create({
         message: 'Please fill required fields',
         closeButtonText: 'ok',
-        duration: 3000
+        duration: 3000,
+        showCloseButton: true
       });
       toast.present()
     }
   }
 
-  private _onSave(err) {
+  private _onSave(err?) {
     this.loading.dismiss();
     if (err) throw new Error(err);
     const toast = this.toastCtrl.create({
@@ -106,6 +107,6 @@ export class personalInfoComponent {
       duration: 3000
     });
     toast.present()
-    this._parent.parent.select(1)
+    this._parent.parent.select(2)
   }
 }

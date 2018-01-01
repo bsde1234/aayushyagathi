@@ -1,7 +1,7 @@
 import { Component, Host } from '@angular/core'
 import { FormGroup, FormControl } from '@angular/forms'
 import { Tab, NavController, ToastController, LoadingController, Loading } from 'ionic-angular'
-
+import { AppService } from '../../../app/app.service'
 // import { EDUCATION, OCCUPATION, INCOME_RANGE } from '../../../app/app.constants'
 
 @Component({
@@ -19,7 +19,8 @@ export class OccupationComponent {
   constructor( @Host() _parent: Tab,
     private navCtrl: NavController,
     private toastCtrl: ToastController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private appService: AppService
   ) {
     this._parent = _parent
     this.occupationForm = new FormGroup({
@@ -34,12 +35,16 @@ export class OccupationComponent {
     })
 
     // this.profile = Meteor.users.findOne(Meteor.userId()).profile
-    if (this.profile) {
-      const occupation = (({ education, occupation, income, resiAddress: { address, city, state } }) =>
-        ({ education, occupation, income, resiAddress: { address, city, state } }))
-        (this.profile || { resiAddress: {} });
-      this.occupationForm.patchValue(occupation)
-    }
+    this.appService.myProfileDoc.valueChanges().subscribe(profile => {
+      this.profile = profile;
+      this.profile.resiAddress = this.profile.resiAddress || {};
+      if (this.profile) {
+        const occupation = (({ education, occupation, income, resiAddress: { address, city, state } }) =>
+          ({ education, occupation, income, resiAddress: { address, city, state } }))
+          (this.profile || { resiAddress: {} });
+        this.occupationForm.patchValue(occupation)
+      }
+    })
   }
 
   saveAndNext() {
@@ -49,11 +54,23 @@ export class OccupationComponent {
     this.loading.present()
     const personalInfoValue = {};
     for (let key in this.occupationForm.value) {
-      personalInfoValue['profile.' + key] = this.occupationForm.value[key];
+      if (this.occupationForm.value[key] !== undefined) {
+        personalInfoValue[key] = this.occupationForm.value[key];
+      }
     }
 
-    // Meteor.users.update(Meteor.userId(),
-    //   { $set: personalInfoValue }, this._onSaved.bind(this))
+    for (let key in personalInfoValue['resiAddress']) {
+      if (personalInfoValue['resiAddress'][key] === undefined) {
+        delete personalInfoValue['resiAddress'][key];
+      }
+    }
+    this.appService.myProfileDoc
+      .update(personalInfoValue)
+      .then(() => {
+        this._onSaved(null);
+      }, (err) => {
+        this._onSaved(err);
+      })
   }
 
   private _onSaved(err) {
@@ -62,7 +79,8 @@ export class OccupationComponent {
     const toast = this.toastCtrl.create({
       message: 'Occupation Info Saved',
       closeButtonText: 'ok',
-      duration: 3000
+      duration: 3000,
+      showCloseButton: true
     })
     toast.present()
     this._parent.parent.select(2)
