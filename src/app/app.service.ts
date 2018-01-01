@@ -42,7 +42,7 @@ export class AppService {
   }
 
   showMessage(message) {
-    const toast = this.toastCtrl.create({
+    this.toastCtrl.create({
       message,
       duration: 3000,
       dismissOnPageChange: false,

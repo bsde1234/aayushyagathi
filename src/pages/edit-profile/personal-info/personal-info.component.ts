@@ -1,4 +1,4 @@
-import { Component, Host, Input } from '@angular/core'
+import { Component, Host } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { Tab, ToastController, LoadingController, Loading } from 'ionic-angular'
 

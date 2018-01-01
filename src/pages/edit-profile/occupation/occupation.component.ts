@@ -1,6 +1,6 @@
 import { Component, Host } from '@angular/core'
 import { FormGroup, FormControl } from '@angular/forms'
-import { Tab, NavController, ToastController, LoadingController, Loading } from 'ionic-angular'
+import { Tab, ToastController, LoadingController, Loading } from 'ionic-angular'
 import { AppService } from '../../../app/app.service'
 // import { EDUCATION, OCCUPATION, INCOME_RANGE } from '../../../app/app.constants'
 
@@ -17,7 +17,6 @@ export class OccupationComponent {
   private loading: Loading
 
   constructor( @Host() _parent: Tab,
-    private navCtrl: NavController,
     private toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     private appService: AppService

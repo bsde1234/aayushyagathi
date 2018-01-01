@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { NavParams, NavController } from 'ionic-angular'
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'page-profile',

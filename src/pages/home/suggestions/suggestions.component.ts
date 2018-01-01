@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { NavController, ModalController } from 'ionic-angular'
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 
 import { ProfileComponent } from '../../profile/profile.component'
