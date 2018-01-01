@@ -17,10 +17,6 @@ export class AppService {
     private toastCtrl: ToastController,
     private afs: AngularFirestore,
     public afAuth: AngularFireAuth) {
-
-    // this.profile$ = new MongoObservable.Collection('profile')
-    // this.favourites$ = new Mongo.Collection('favourite')
-
     this.userDataDoc = this.afs.collection('users')
       .doc(this.afAuth.auth.currentUser.uid);
     this.userData$ = this.userDataDoc.valueChanges();

@@ -21,13 +21,14 @@ export class MyApp {
     afire.authState.subscribe((user) => {
       if (user) {
         this.rootPage = HomePage;
-        const profileDoc = afs.collection('profile').doc(user.uid);
+        const profileDoc = afs.collection('profiles').doc(user.uid);
 
         profileDoc.valueChanges()
           .subscribe(profile => {
-            console.log(profile)
-          }, (err) => {
-            profileDoc.set({ name: user.displayName })
+            if (!profile) {
+              var usrName = (user.displayName || ' ').split(' ');
+              profileDoc.set({ firstName: usrName[0], lastName: usrName[1] });
+            }
           })
       }
       else
