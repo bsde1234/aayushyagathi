@@ -1,8 +1,8 @@
 import { LoginComponent } from './login/login.component'
 import { ProfileComponent } from './profile/profile.component'
-import HOME from './home'
+import { HOME } from './home'
 import { EDIT_PROFILE } from './edit-profile'
-const PAGES = [
+export const PAGES = [
   // Login Page
   LoginComponent,
 
@@ -10,10 +10,8 @@ const PAGES = [
   ProfileComponent,
 
   // Edit profile
-  EDIT_PROFILE,
+  ...EDIT_PROFILE,
 
   // Dashboard
   ...HOME
 ]
-
-export default PAGES

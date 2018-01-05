@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
@@ -12,16 +12,13 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { environment } from '../environment'
 import { MyApp } from './app.component';
-import { LoginComponent } from '../pages/login/login.component';
-import PAGES from '../pages'
+import { PAGES } from '../pages'
 import { SharedModule } from '../shared/shared.module'
 import { AppService } from './app.service';
 import { ErrorHanderService } from './error-handler.service';
-
 @NgModule({
   declarations: [
     MyApp,
-    LoginComponent,
     ...PAGES
   ],
   imports: [
@@ -35,7 +32,6 @@ import { ErrorHanderService } from './error-handler.service';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    LoginComponent,
     ...PAGES
   ],
   providers: [

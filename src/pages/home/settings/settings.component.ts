@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
-import { NavController, App, ModalController } from 'ionic-angular'
+import { NavController } from 'ionic-angular'
 
-import { LoginComponent } from '../../login/login.component'
 import { AppService } from '../../../app/app.service'
 import { EditProfileComponent } from '../../edit-profile/edit-profile.component'
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -13,9 +12,7 @@ export class SettingsComponent {
   profile
   noPhoto: string = '../assets/imgs/placeholder.png'
   constructor(private navCtrl: NavController,
-    private app: App,
     private appService: AppService,
-    private modalCtrl: ModalController,
     private afAuth: AngularFireAuth) {
   }
 

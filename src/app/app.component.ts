@@ -9,7 +9,8 @@ import { LoginComponent } from '../pages/login/login.component'
 import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'page-app',
+  templateUrl: './app.html'
 })
 export class MyApp {
   rootPage: any = LoginComponent;
@@ -18,6 +19,9 @@ export class MyApp {
     splashScreen: SplashScreen,
     afire: AngularFireAuth,
     afs: AngularFirestore) {
+    if (afire.auth.currentUser) {
+      this.rootPage = HomePage;
+    }
     afire.authState.subscribe((user) => {
       if (user) {
         this.rootPage = HomePage;

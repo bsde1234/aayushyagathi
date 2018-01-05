@@ -1,8 +1,6 @@
 import { Component } from '@angular/core'
-import { ModalController } from 'ionic-angular'
 
-import { ProfileComponent } from '../../profile/profile.component'
-import { AppService } from '../../../app/app.service'
+// import { AppService } from '../../../app/app.service'
 
 @Component({
   selector: 'page-favourite',
@@ -11,8 +9,7 @@ import { AppService } from '../../../app/app.service'
 export class FavouriteComponent {
   favouriteList: any;
   favourite: any
-  constructor(private modalCtrl: ModalController,
-    private appService: AppService) {
+  constructor() {
   }
 
   ngOnInit() {

@@ -1,29 +1,31 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import * as firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
+import * as firebase from 'firebase';
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 @Component({
   selector: 'aa-login',
   templateUrl: './login.component.html',
-  styleUrls: ['/login.component.scss']
+  // styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   constructor(private afAuth: AngularFireAuth,
-    private gPlus: GooglePlus) {
+    private gPlus: GooglePlus,
+    private alert: AlertController
+  ) {
   }
   login() {
-    this.gPlus.login({
-      webClientId: '1046047256297-7sk9jks0i2t3qbfn9he5ecui7up2seks.apps.googleusercontent.com',
-      offline: true
-    })
-      .then(res => {
-        this.afAuth.auth.signInWithCredential(res.accessToken);
-      }, (err) => {
-        console.log(err)
+    this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())
+      .then(val => {
+        return this.afAuth.auth.getRedirectResult()
       })
       .catch(err => {
-        console.log(err);
+        this.alert.create({
+          buttons: ['OK'],
+          title: 'Error',
+          message: 'Error in Login'
+        }).present();
       })
   }
 }

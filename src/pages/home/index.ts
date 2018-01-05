@@ -5,7 +5,7 @@ import { SuggestionsComponent } from './suggestions/suggestions.component'
 import { FavouriteComponent } from './favourite/favourite.component'
 import { SearchResultComponent } from './advanced-search/search-result/search-result.component'
 
-const HOME = [
+export const HOME = [
   HomePage,
   SuggestionsComponent,
   AdvancedSearchComponent,
@@ -13,5 +13,3 @@ const HOME = [
   FavouriteComponent,
   SettingsComponent,
 ]
-
-export default HOME

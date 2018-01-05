@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { Tab, ToastController, LoadingController, Loading } from 'ionic-angular'
 
 // import { LANGUAGES, COMPLEXION, GENDER } from '../../../app/app.constants'
-import { OccupationComponent } from '../occupation/occupation.component'
 import { AppService } from '../../../app/app.service'
 
 @Component({
@@ -15,8 +14,8 @@ export class personalInfoComponent {
   profile: any
   // CONSTANTS = { LANGUAGES, COMPLEXION, GENDER }
   _parent: Tab
-  private minDate = new Date().getFullYear() - 35
-  private maxDate = new Date().getFullYear() - 18
+  minDate = new Date().getFullYear() - 35
+  maxDate = new Date().getFullYear() - 18
   private loading: Loading;
   constructor( @Host() _parent: Tab,
     private appService: AppService,

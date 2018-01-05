@@ -3,6 +3,13 @@
   <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum iste, qui ratione nihil repellat, aliquid est ipsa eaque
     rem illo, sapiente odit sint? Corrupti rerum ducimus obcaecati officiis suscipit. Cupiditate?</p>
   <form>
-    <button ion-button type="submit" block (click)="save()">Next</button>
+    <ion-grid>
+      <ion-row *ngFor="let pic from profile?.photos">
+        <ion-col col-2>
+          <img src="pic">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <button ion-button type="submit" block (click)="save()">Save</button>
   </form>
 </ion-content>
