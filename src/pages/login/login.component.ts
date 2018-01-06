@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { GooglePlus } from '@ionic-native/google-plus';
 import * as firebase from 'firebase';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 @Component({
@@ -11,7 +10,6 @@ import { AlertController } from 'ionic-angular/components/alert/alert-controller
 })
 export class LoginComponent {
   constructor(private afAuth: AngularFireAuth,
-    private gPlus: GooglePlus,
     private alert: AlertController
   ) {
   }

@@ -1,5 +1,5 @@
 <ion-card (click)="showProfile(profile._id)">
-  <img [src]="profile?.photos?profile?.photos[0]:noPhoto" />
+  <img [src]="profile?.photos?profile?.photos[0]:noPhoto" class="photo" />
   <ion-card-content>
     <ion-card-title>
       {{profile?.firstName}} {{profile?.lastName}}

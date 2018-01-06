@@ -1,17 +1,26 @@
 import { Component } from '@angular/core'
 import { NavParams, NavController } from 'ionic-angular'
 import { AngularFirestore } from 'angularfire2/firestore';
+import { ViewChild } from '@angular/core';
+import { Slides } from 'ionic-angular/components/slides/slides';
 
 @Component({
   selector: 'page-profile',
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  styles: [`
+    .photo {
+      height: 350px !important;
+      width: calc(100vw - 20px) !important;
+      margin: auto;
+    }`]
 })
 export class ProfileComponent {
   private favourites: any
   profileData: any
   CONSTANTS
-  noPhoto: string = '../assets/imgs/placeholder.png'
+  noPhoto: string = 'assets/imgs/placeholder.png'
   profileId: string;
+  @ViewChild('slides') slides: Slides;
 
   constructor(private params: NavParams,
     private navCtrl: NavController,
@@ -25,6 +34,7 @@ export class ProfileComponent {
       .subscribe(data => {
         if (data) {
           this.profileData = data;
+          // this.slides.update(100);
         }
       })
     // this.profileData = Meteor.users.findOne(this.profileId).profile;

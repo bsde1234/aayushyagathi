@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { ModalController } from 'ionic-angular'
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
 
 import { ProfileComponent } from '../../profile/profile.component'
 
@@ -10,18 +9,21 @@ import { ProfileComponent } from '../../profile/profile.component'
   templateUrl: './suggestions.component.html'
 })
 export class SuggestionsComponent {
-  featured: Observable<any[]>;
-
+  featured: Array<any> = [];
+  referenceToOldestKey;
   constructor(private modalCtrl: ModalController,
     private afs: AngularFirestore) {
-    let featuredCollection = this.afs.collection<any>('profiles')
-    this.featured = featuredCollection.snapshotChanges()
-      .map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const _id = a.payload.doc.id;
-          return { _id, ...data };
+    this.afs.collection<any>('profiles')
+      .ref.orderBy('firstName')
+      .limit(5)
+      .get()
+      .then((data: any) => {
+        const profiles = data.docs.map(doc => {
+          const d = doc.data();
+          this.referenceToOldestKey = doc;
+          return { _id: doc.id, ...d };
         });
+        this.featured.push(...profiles);
       });
   }
 
@@ -32,5 +34,21 @@ export class SuggestionsComponent {
   showProfile(id) {
     let modal = this.modalCtrl.create(ProfileComponent, { profileId: id });
     modal.present();
+  }
+
+  doInfinite(): Promise<any> {
+    return this.afs.collection<any>('profiles').ref
+      .orderBy('firstName')
+      .startAfter(this.referenceToOldestKey)
+      .limit(5)
+      .get()
+      .then((data: any) => {
+        const profiles = data.docs.map(doc => {
+          const d = doc.data();
+          this.referenceToOldestKey = doc;
+          return { _id: doc.id, ...d };
+        });
+        this.featured.push(...profiles);
+      })
   }
 }

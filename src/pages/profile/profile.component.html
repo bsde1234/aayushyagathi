@@ -14,15 +14,15 @@
 <ion-content>
   <ion-card>
     <ion-slides zoom="true" pager>
-      <ion-slide >
-        <div class="swiper-zoom-container" *ngIf="!profileData?.photos?.length">
+      <ion-slide *ngIf="!profileData?.photos?.length">
+        <div class="swiper-zoom-container">
           <img [src]="noPhoto">
         </div>
       </ion-slide>
 
       <ion-slide *ngFor="let photo of profileData?.photos">
         <div class="swiper-zoom-container">
-          <img [src]="photo">
+          <img [src]="photo" class="photo" />
         </div>
       </ion-slide>
     </ion-slides>

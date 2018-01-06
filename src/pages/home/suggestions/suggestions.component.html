@@ -1,3 +1,6 @@
 <ion-content>
-  <user-profile [profile]="profile" *ngFor="let profile of featured | async"></user-profile>
+  <user-profile [profile]="profile" *ngFor="let profile of featured"></user-profile>
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

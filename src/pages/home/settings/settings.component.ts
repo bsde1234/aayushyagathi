@@ -10,7 +10,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class SettingsComponent {
   profile
-  noPhoto: string = '../assets/imgs/placeholder.png'
+  noPhoto: string = 'assets/imgs/placeholder.png'
   constructor(private navCtrl: NavController,
     private appService: AppService,
     private afAuth: AngularFireAuth) {
