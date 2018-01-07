@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 // import { COMPLEXION, EDUCATION, OCCUPATION, INCOME_RANGE } from '../../../app/app.constants'
 import { SearchResultComponent } from './search-result/search-result.component'
 import { NavController } from 'ionic-angular/navigation/nav-controller';
+import { AppService } from '../../../app/app.service';
 
 @Component({
   selector: 'page-advanced-search',
@@ -13,8 +14,10 @@ import { NavController } from 'ionic-angular/navigation/nav-controller';
 export class AdvancedSearchComponent {
   searchForm: FormGroup
   ageRange: FormControl
-  // CONSTANTS = { COMPLEXION, EDUCATION, OCCUPATION, INCOME_RANGE }
-  constructor(private navCtrl: NavController) {
+  CONSTANTS;
+  constructor(private navCtrl: NavController,
+    private appService: AppService) {
+
     this.searchForm = new FormGroup({
       education: new FormControl(null, []),
       occupation: new FormControl(null, []),
@@ -24,11 +27,12 @@ export class AdvancedSearchComponent {
       city: new FormControl(null),
       state: new FormControl(null)
     })
-    this.ageRange = <FormControl>this.searchForm.get('age')
-    this.ageRange.setValue({ lower: 18, upper: 40 })
+    this.ageRange = <FormControl>this.searchForm.get('age');
+    this.ageRange.setValue({ lower: 18, upper: 40 });
+    this.appService.constants$.subscribe(data => this.CONSTANTS = data);
   }
 
   search() {
-    this.navCtrl.parent.parent.push(SearchResultComponent, { query: this.searchForm.value })
+    this.navCtrl.parent.parent.push(SearchResultComponent, { query: this.searchForm.value });
   }
 }
