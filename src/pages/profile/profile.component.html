@@ -13,20 +13,7 @@
 
 <ion-content>
   <ion-card>
-    <ion-slides zoom="true" pager>
-      <ion-slide *ngIf="!profileData?.photos?.length">
-        <div class="swiper-zoom-container">
-          <img [src]="noPhoto">
-        </div>
-      </ion-slide>
-
-      <ion-slide *ngFor="let photo of profileData?.photos">
-        <div class="swiper-zoom-container">
-          <img [src]="photo" class="photo" />
-        </div>
-      </ion-slide>
-    </ion-slides>
-
+    <img [src]="profileData?.photo||noPhoto">
     <ion-card-content>
       <ion-card-title>
         {{profileData?.firstName}} {{profileData?.lastName}}

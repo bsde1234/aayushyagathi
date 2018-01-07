@@ -12,6 +12,7 @@ export class AppService {
 
   myProfileDoc: AngularFirestoreDocument<any>;
   myProfile$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  updateStatus$: BehaviorSubject<any> = new BehaviorSubject<any>({ updateAvailable: false });
 
   constants$: BehaviorSubject<any> = new BehaviorSubject<any>({});
 

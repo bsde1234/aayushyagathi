@@ -5,7 +5,6 @@ import { ProfileComponent } from '../../../profile/profile.component'
 import { NavParams } from 'ionic-angular/navigation/nav-params';
 import { AppService } from '../../../../app/app.service';
 import { AngularFirestore } from 'angularfire2/firestore';
-import * as firebase from 'firebase'
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 @Component({
   selector: 'page-search-result',

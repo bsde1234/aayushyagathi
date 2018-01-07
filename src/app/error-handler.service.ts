@@ -5,7 +5,7 @@ import { LoadingController } from 'ionic-angular/components/loading/loading-cont
 @Injectable()
 export class ErrorHanderService implements ErrorHandler {
   constructor(private injector: Injector,
-    private loading: LoadingController) {
+    loading: LoadingController) {
     loading.create().dismissAll();
   }
   handleError(error) {

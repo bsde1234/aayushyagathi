@@ -1,13 +1,9 @@
 <ion-content>
   <button ion-button (click)="uploadImage()">Upload</button>
-  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum iste, qui ratione nihil repellat, aliquid est ipsa eaque
-    rem illo, sapiente odit sint? Corrupti rerum ducimus obcaecati officiis suscipit. Cupiditate?</p>
   <form>
     <ion-grid>
       <ion-row>
-        <ion-col col-6 *ngFor="let pic of profile?.photos">
-          <img [src]="pic">
-        </ion-col>
+        <img [src]="profile?.photo || noPhoto">
       </ion-row>
     </ion-grid>
     <button ion-button type="submit" block (click)="save()">Save</button>

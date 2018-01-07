@@ -9,6 +9,7 @@ import { CodePush } from '@ionic-native/code-push';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { FCM } from '@ionic-native/fcm'
 
 import { environment } from '../environment'
 import { MyApp } from './app.component';
@@ -40,7 +41,8 @@ import { ErrorHanderService } from './error-handler.service';
     { provide: ErrorHandler, useClass: ErrorHanderService },
     AppService,
     Camera,
-    CodePush
+    CodePush,
+    FCM
   ]
 })
 export class AppModule { }

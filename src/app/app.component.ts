@@ -5,47 +5,64 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { CodePush } from '@ionic-native/code-push';
-
+import { FCM } from '@ionic-native/fcm'
 import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../pages/login/login.component'
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'page-app',
   templateUrl: './app.html'
 })
 export class MyApp {
-  rootPage: any = LoginComponent;
+  rootPage: any = HomePage;
   constructor(platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
     afire: AngularFireAuth,
     afs: AngularFirestore,
-    codepush: CodePush) {
-    if (afire.auth.currentUser) {
-      this.rootPage = HomePage;
-    }
+    codepush: CodePush,
+    loading: LoadingController,
+    appService: AppService,
+    fcm: FCM) {
+    const loader = loading.create();
+    loader.present();
     afire.authState.subscribe((user) => {
       if (user) {
         this.rootPage = HomePage;
-        const profileDoc = afs.collection('profiles').doc(user.uid);
-
-        profileDoc.valueChanges()
+        const profileDoc = appService.userDataDoc;
+        profileDoc
+          .valueChanges()
           .subscribe(profile => {
             if (!profile) {
               var usrName = (user.displayName || ' ').split(' ');
-              profileDoc.set({ firstName: usrName[0], lastName: usrName[1] });
+              profileDoc.set({ firstName: usrName[0], lastName: usrName[1] }, { merge: true });
             }
+            loader.dismiss();
           })
       }
       else
         this.rootPage = LoginComponent;
     })
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      codepush.sync().subscribe((syncStatus) => console.log(syncStatus));
+      codepush.sync({}, (status) => console.log(status))
+        .subscribe((syncStatus) => console.log(syncStatus));
+    });
+    fcm.getToken().then(token => {
+      console.log(token)
+    });
+    fcm.onTokenRefresh().subscribe(token => {
+      console.log(token)
+    });
+    fcm.onNotification().subscribe(data => {
+      console.log(data);
+      if (data.wasTapped) {
+      } else {
+
+      }
     });
   }
 }

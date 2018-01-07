@@ -1,8 +1,8 @@
 <ion-content>
   <ion-list>
-    <ion-item (click)="viewProfile()" >
+    <ion-item (click)="viewProfile()">
       <ion-avatar item-start>
-          <img [src]="profile?.photos?profile?.photos[0]:noPhoto" /> 
+        <img [src]="profile?.photo||noPhoto" />
       </ion-avatar>
       <h2>{{profile?.firstName}} {{ profile?.lastName }}</h2>
       <p>Edit your profile</p>

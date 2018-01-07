@@ -111,4 +111,5 @@
     <plugin name="cordova-plugin-code-push" spec="^1.11.0" />
     <plugin name="cordova-plugin-appcenter-analytics" spec="^0.1.3" />
     <plugin name="cordova-plugin-appcenter-crashes" spec="^0.1.3" />
+    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
 </widget>

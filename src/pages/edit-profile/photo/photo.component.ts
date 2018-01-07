@@ -14,6 +14,7 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
 })
 export class PhotoComponent {
   profile;
+  noPhoto: string = 'assets/imgs/placeholder.png'
   constructor(private navCtrl: NavController,
     private camera: Camera,
     private appService: AppService,
@@ -47,7 +48,7 @@ export class PhotoComponent {
     this.camera.getPicture(options)
       .then((data) => {
         loader.present();
-        const name = (+new Date()) + '-' + (Math.random() * 100000000).toFixed(0) + '.png';
+        const name = this.profile._id + '.png';
         const uploadTask = firebase.storage().ref('profile_photos')
           .child(name)
           .putString('data:image/jpeg;base64,' + data, 'data_url')
@@ -64,9 +65,8 @@ export class PhotoComponent {
               showCloseButton: true
             }).present();
           }, () => {
-            this.profile.photos = [...(this.profile.photos || []), uploadTask.snapshot.downloadURL];
             this.appService.myProfileDoc
-              .update({ photos: this.profile.photos })
+              .update({ photo: name })
               .then(() => {
                 loader.dismiss();
                 this.toast.create({
