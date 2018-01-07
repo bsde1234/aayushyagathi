@@ -42,15 +42,17 @@ script:
   - npm install -g cordova ionic
 
   # - install plugins etc.
-  - cordova prepare
+  # - cordova prepare
 
   # build Android and iOS packages
-  - cordova build android --release
-  - cordova build ios --device --release
+  - ionic cordova build android --release --prod
+  # - cordova build ios --device --release
 
 after_success:
   # generate documentation
   # - gulp doc
-
+  - npm install -g appcenter-cli
+  - appcenter login -u dl.groups007 -p Dlinx@123
+  - appcenter codepush release-cordova
 deploy:
   # deploy build to s3, testflight etc.

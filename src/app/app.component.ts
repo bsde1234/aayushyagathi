@@ -3,10 +3,11 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { CodePush } from '@ionic-native/code-push';
 
 import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../pages/login/login.component'
-import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'page-app',
@@ -18,7 +19,8 @@ export class MyApp {
     statusBar: StatusBar,
     splashScreen: SplashScreen,
     afire: AngularFireAuth,
-    afs: AngularFirestore) {
+    afs: AngularFirestore,
+    codepush: CodePush) {
     if (afire.auth.currentUser) {
       this.rootPage = HomePage;
     }
@@ -43,6 +45,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      codepush.sync().subscribe((syncStatus) => console.log(syncStatus));
     });
   }
 }

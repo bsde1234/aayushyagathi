@@ -4,7 +4,7 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
-import { GooglePlus } from '@ionic-native/google-plus';
+import { CodePush } from '@ionic-native/code-push';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -40,7 +40,7 @@ import { ErrorHanderService } from './error-handler.service';
     { provide: ErrorHandler, useClass: ErrorHanderService },
     AppService,
     Camera,
-    GooglePlus
+    CodePush
   ]
 })
 export class AppModule { }
