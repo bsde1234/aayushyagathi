@@ -14,7 +14,7 @@ export class ExpectionsComponent {
   profile: any
   _parent: Tab
   ageRange: FormControl
-  // CONSTANTS = { COMPLEXION, EDUCATION, OCCUPATION, INCOME_RANGE }
+  CONSTANTS
   private loading: Loading
   constructor( @Host() _parent: Tab,
     private toastCtrl: ToastController,
@@ -22,7 +22,7 @@ export class ExpectionsComponent {
     private appService: AppService
   ) {
     this._parent = _parent
-
+    this.appService.constants$.subscribe(constant => this.CONSTANTS = constant);
     this.expectionsForm = new FormGroup({
       education: new FormControl(null, []),
       occupation: new FormControl(null, []),

@@ -10,7 +10,7 @@ import { AppService } from '../../../app/app.service'
 })
 
 export class OccupationComponent {
-  // CONSTANTS = { EDUCATION, OCCUPATION, INCOME_RANGE }
+  CONSTANTS
   occupationForm: FormGroup
   _parent: Tab
   profile: any
@@ -22,6 +22,7 @@ export class OccupationComponent {
     private appService: AppService
   ) {
     this._parent = _parent
+    this.appService.constants$.subscribe(constant => this.CONSTANTS = constant);
     this.occupationForm = new FormGroup({
       education: new FormControl(null, []),
       occupation: new FormControl(null, []),

@@ -3,7 +3,9 @@
   <form>
     <ion-grid>
       <ion-row>
-        <img [src]="profile?.photo || noPhoto">
+        <ion-col>
+          <img [src]="profile?.photo || noPhoto">
+        </ion-col>
       </ion-row>
     </ion-grid>
     <button ion-button type="submit" block (click)="save()">Save</button>

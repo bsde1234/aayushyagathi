@@ -27,7 +27,7 @@ import { ErrorHanderService } from './error-handler.service';
     AngularFireModule.initializeApp(environment.firebase),
     SharedModule,
     AngularFireAuthModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

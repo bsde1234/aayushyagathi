@@ -21,9 +21,13 @@ export class PhotoComponent {
     private loader: LoadingController,
     private toast: ToastController
   ) {
-    this.appService.myProfileDoc.valueChanges().subscribe(profile => {
-      this.profile = profile;
-    });
+    this.appService.myProfileDoc.snapshotChanges()
+      .map(val => {
+        return { _id: val.payload.id, data: val.payload.data() };
+      })
+      .subscribe(profile => {
+        this.profile = profile;
+      });
   }
   save() {
     if (this.navCtrl.parent.parent.canGoBack()) {

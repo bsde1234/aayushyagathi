@@ -12,7 +12,7 @@ import { AppService } from '../../../app/app.service'
 export class personalInfoComponent {
   personalInfo: FormGroup
   profile: any
-  // CONSTANTS = { LANGUAGES, COMPLEXION, GENDER }
+  CONSTANTS
   _parent: Tab
   minDate = new Date().getFullYear() - 35
   maxDate = new Date().getFullYear() - 18
@@ -22,6 +22,7 @@ export class personalInfoComponent {
     private toastCtrl: ToastController,
     public loadingCtrl: LoadingController
   ) {
+    this.appService.constants$.subscribe(constant => this.CONSTANTS = constant);
     this._parent = _parent
     this.personalInfo = new FormGroup({
       firstName: new FormControl(null, [Validators.required]),
@@ -106,6 +107,7 @@ export class personalInfoComponent {
       duration: 3000
     });
     toast.present()
-    this._parent.parent.select(2)
+    console.log(this)
+    this._parent.parent.select(2);
   }
 }

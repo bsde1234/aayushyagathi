@@ -20,6 +20,9 @@ export class AppService {
     private toastCtrl: ToastController,
     private afs: AngularFirestore,
     public afAuth: AngularFireAuth) {
+  }
+
+  loadInitData() {
     this.userDataDoc = this.afs.collection('users')
       .doc(this.afAuth.auth.currentUser.uid);
     this.userData$ = this.userDataDoc.valueChanges();

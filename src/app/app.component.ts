@@ -9,13 +9,14 @@ import { FCM } from '@ionic-native/fcm'
 import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../pages/login/login.component'
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'page-app',
   templateUrl: './app.html'
 })
 export class MyApp {
-  rootPage: any = HomePage;
+  rootPage: any = LoginComponent;
   constructor(platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
@@ -23,11 +24,13 @@ export class MyApp {
     afs: AngularFirestore,
     codepush: CodePush,
     loading: LoadingController,
-    fcm: FCM) {
+    fcm: FCM,
+    appService: AppService) {
     const loader = loading.create();
     loader.present();
     afire.authState.subscribe((user) => {
       if (user) {
+        appService.loadInitData()
         this.rootPage = HomePage;
         const profileDoc = afs.collection('profiles').doc(user.uid);
         profileDoc
@@ -38,29 +41,30 @@ export class MyApp {
               profileDoc.set({ firstName: usrName[0], lastName: usrName[1] }, { merge: true });
             }
             loader.dismiss();
-          })
-      }
-      else
+          });
+      } else {
         this.rootPage = LoginComponent;
+        loader.dismiss();
+      }
     })
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
       codepush.sync({}, (status) => console.log(status))
         .subscribe((syncStatus) => console.log(syncStatus));
-    });
-    fcm.getToken().then(token => {
-      console.log(token)
-    });
-    fcm.onTokenRefresh().subscribe(token => {
-      console.log(token)
-    });
-    fcm.onNotification().subscribe(data => {
-      console.log(data);
-      if (data.wasTapped) {
-      } else {
+      fcm.getToken().then(token => {
+        console.log(token)
+      });
+      fcm.onTokenRefresh().subscribe(token => {
+        console.log(token)
+      });
+      fcm.onNotification().subscribe(data => {
+        console.log(data);
+        if (data.wasTapped) {
+        } else {
 
-      }
+        }
+      });
     });
   }
 }
