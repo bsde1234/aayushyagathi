@@ -9,7 +9,6 @@ import { FCM } from '@ionic-native/fcm'
 import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../pages/login/login.component'
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { AppService } from './app.service';
 
 @Component({
   selector: 'page-app',
@@ -24,14 +23,13 @@ export class MyApp {
     afs: AngularFirestore,
     codepush: CodePush,
     loading: LoadingController,
-    appService: AppService,
     fcm: FCM) {
     const loader = loading.create();
     loader.present();
     afire.authState.subscribe((user) => {
       if (user) {
         this.rootPage = HomePage;
-        const profileDoc = appService.userDataDoc;
+        const profileDoc = afs.collection('profiles').doc(user.uid);
         profileDoc
           .valueChanges()
           .subscribe(profile => {
