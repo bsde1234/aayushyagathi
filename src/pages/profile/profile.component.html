@@ -11,7 +11,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content style="background:lightgray;">
   <ion-card>
     <img [src]="profileData?.photo||noPhoto">
     <ion-card-content>
@@ -142,17 +142,17 @@
 <ion-footer no-border>
   <ion-toolbar color="primary">
     <ion-buttons>
-      <div *ngIf="favourites?.includes(profileId); then shortlist else shortlisted"></div>
+      <div *ngIf="favourites?favourites[profileData?._id]:false; then shortlist else shortlisted"></div>
 
       <ng-template #shortlisted>
-        <button ion-button icon-left clear small (click)="markFavourite(profileId,true)">
+        <button ion-button icon-left clear small (click)="markFavourite(profileData?._id,true)">
           <ion-icon name="heart-outline"></ion-icon>
           <p> Shortlist </p>
         </button>
       </ng-template>
 
       <ng-template #shortlist>
-        <button ion-button icon-left clear small (click)="markFavourite(profileId,false)">
+        <button ion-button icon-left clear small (click)="markFavourite(profileData?._id,false)">
           <ion-icon name="heart"></ion-icon>
           <p> Shortlisted </p>
         </button>

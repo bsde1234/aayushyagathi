@@ -51,8 +51,9 @@ export class MyApp {
       if (platform.is('cordova')) {
         statusBar.styleDefault();
         splashScreen.hide();
-        codepush.sync({}, (status) => console.log(status))
-          .subscribe((syncStatus) => console.log(syncStatus));
+        codepush.sync({}, (status) => appService.updateStatus$.next(status))
+          .subscribe((syncStatus) => console.log(2, syncStatus));
+
         fcm.getToken().then(token => {
           console.log(token)
         });

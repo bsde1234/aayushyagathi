@@ -12,7 +12,7 @@ import { LoadingController } from 'ionic-angular/components/loading/loading-cont
 })
 
 export class SuggestionsComponent {
-  featured;
+  featured = [];
   referenceToOldestKey;
   profile;
   isFinished = false;
@@ -26,17 +26,7 @@ export class SuggestionsComponent {
     this.appService.myProfile$.subscribe((profile) => {
       this.profile = profile;
       if (profile) {
-        // this.loadDocs();
-        this.afs.collection<any>('profiles')
-          .snapshotChanges()
-          .map(docs =>
-            docs.map(doc => {
-              return { id: doc.payload.doc.id, ...doc.payload.doc.data() };
-            })
-          ).subscribe(value => {
-            this.featured = value;
-            loader.dismiss()
-          })
+        this.loadDocs().then(() => { loader.dismiss(); });
       }
     })
   }
@@ -46,28 +36,29 @@ export class SuggestionsComponent {
     modal.present();
   }
 
-  // private loadDocs() {
-  //   let ref: any = this.afs.collection<any>('profiles').ref
-  //   if (this.referenceToOldestKey) {
-  //     ref = ref.startAfter(this.referenceToOldestKey)
-  //   }
+  private loadDocs() {
+    return new Promise((resolve) => {
+      const suggestionsObs = this.afs.collection<any>('profiles', ref => {
+        var docRef: any = ref.orderBy("_id");
+        if (this.referenceToOldestKey) {
+          docRef = docRef.startAfter(this.referenceToOldestKey);
+        }
+        docRef = docRef.limit(20)
+        return docRef;
+      })
+        .valueChanges()
+        .subscribe(value => {
+          if (value.length) {
+            this.featured.push(...value);
+            this.referenceToOldestKey = value[value.length - 1]._id;
+          }
+          resolve(value);
+          suggestionsObs.unsubscribe();
+        });
+    });
+  }
 
-  //   return ref
-  //     .limit(20)
-  //     .get()
-  //     .then((data: any) => {
-  //       const documents = data.docs.filter(doc => doc.id !== this.profile._id);
-  //       const profiles = documents.map(doc => {
-  //         const d = doc.data();
-  //         this.referenceToOldestKey = doc;
-  //         return { _id: doc.id, ...d };
-  //       });
-  //       this.featured.push(...profiles);
-  //       if (data.size < 20) this.isFinished = true;
-  //     });
-  // }
-
-  // doInfinite(): Promise<any> {
-  //   return this.loadDocs();
-  // }
+  doInfinite(evt): Promise<any> {
+    return this.loadDocs();
+  }
 }

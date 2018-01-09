@@ -17,7 +17,7 @@ import { LoadingController } from 'ionic-angular/components/loading/loading-cont
     }`]
 })
 export class ProfileComponent {
-  private favourites: any
+  public favourites: any
   profileData: any
   CONSTANTS
   noPhoto: string = 'assets/imgs/placeholder.png'
@@ -44,6 +44,7 @@ export class ProfileComponent {
         }
       });
     this.appService.constants$.subscribe(constants => this.CONSTANTS = constants);
+    this.appService.userData$.subscribe(userData => this.favourites = userData.favourites);
   }
 
   closeModal() {
@@ -51,10 +52,6 @@ export class ProfileComponent {
   }
 
   markFavourite(id, favourites) {
-    if (favourites) {
-      this.favourites.push(id)
-    } else {
-      this.favourites.splice(this.favourites.indexOf(id))
-    }
+    this.appService.toggleShortlist(id, favourites);
   }
 }

@@ -4,14 +4,14 @@ import { AlertController, ToastController } from 'ionic-angular'
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AppService {
   userDataDoc: AngularFirestoreDocument<any>;
-  userData$: Observable<any>;
+  userData$: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
   myProfileDoc: AngularFirestoreDocument<any>;
   myProfile$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
   updateStatus$: BehaviorSubject<any> = new BehaviorSubject<any>({ updateAvailable: false });
 
   constants$: BehaviorSubject<any> = new BehaviorSubject<any>({});
@@ -25,7 +25,17 @@ export class AppService {
   loadInitData() {
     this.userDataDoc = this.afs.collection('users')
       .doc(this.afAuth.auth.currentUser.uid);
-    this.userData$ = this.userDataDoc.valueChanges();
+    this.userDataDoc.valueChanges()
+      .subscribe(userConfig => {
+        this.userData$.next(userConfig)
+        if (!userConfig) {
+          this.afs.collection('users')
+            .doc(this.afAuth.auth.currentUser.uid)
+            .set({
+              favourites: {}
+            });
+        }
+      });
 
     this.myProfileDoc = this.afs.collection('profiles').doc(this.afAuth.auth.currentUser.uid);
     this.myProfileDoc.snapshotChanges()
@@ -39,12 +49,14 @@ export class AppService {
     this.afs.collection('constants')
       .doc('3JaxBhC5W58pimwaJT0S')
       .valueChanges().subscribe(docs => {
-        this.constants$.next(docs)
+        this.constants$.next(docs);
       });
   }
 
   toggleShortlist(id, favourites) {
-    // return MeteorObservable.call('toggleShortlist', id, favourites)
+    return this.userDataDoc.update({
+      ['favourites.' + id]: favourites
+    });
   }
 
   showError(err) {
