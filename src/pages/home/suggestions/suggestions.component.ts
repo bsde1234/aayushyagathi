@@ -37,25 +37,20 @@ export class SuggestionsComponent {
   }
 
   private loadDocs() {
-    return new Promise((resolve) => {
-      const suggestionsObs = this.afs.collection<any>('profiles', ref => {
-        var docRef: any = ref.orderBy("_id");
-        if (this.referenceToOldestKey) {
-          docRef = docRef.startAfter(this.referenceToOldestKey);
+    var docRef = this.afs.collection('profiles').ref.orderBy('_id');
+    if (this.referenceToOldestKey) {
+      docRef = docRef.startAfter(this.referenceToOldestKey);
+    }
+    return docRef
+      .limit(20)
+      .get()
+      .then(value => {
+        var docs = value.docs.map(doc => doc.data());
+        if (docs.length) {
+          this.featured.push(...docs);
+          this.referenceToOldestKey = docs[docs.length - 1]._id;
         }
-        docRef = docRef.limit(20)
-        return docRef;
-      })
-        .valueChanges()
-        .subscribe(value => {
-          if (value.length) {
-            this.featured.push(...value);
-            this.referenceToOldestKey = value[value.length - 1]._id;
-          }
-          resolve(value);
-          suggestionsObs.unsubscribe();
-        });
-    });
+      });
   }
 
   doInfinite(evt): Promise<any> {
