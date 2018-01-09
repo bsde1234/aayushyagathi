@@ -48,23 +48,25 @@ export class MyApp {
       }
     })
     platform.ready().then(() => {
-      statusBar.styleDefault();
-      splashScreen.hide();
-      codepush.sync({}, (status) => console.log(status))
-        .subscribe((syncStatus) => console.log(syncStatus));
-      fcm.getToken().then(token => {
-        console.log(token)
-      });
-      fcm.onTokenRefresh().subscribe(token => {
-        console.log(token)
-      });
-      fcm.onNotification().subscribe(data => {
-        console.log(data);
-        if (data.wasTapped) {
-        } else {
+      if (platform.is('cordova')) {
+        statusBar.styleDefault();
+        splashScreen.hide();
+        codepush.sync({}, (status) => console.log(status))
+          .subscribe((syncStatus) => console.log(syncStatus));
+        fcm.getToken().then(token => {
+          console.log(token)
+        });
+        fcm.onTokenRefresh().subscribe(token => {
+          console.log(token)
+        });
+        fcm.onNotification().subscribe(data => {
+          console.log(data);
+          if (data.wasTapped) {
+          } else {
 
-        }
-      });
+          }
+        });
+      }
     });
   }
 }
