@@ -58,9 +58,8 @@ export class PhotoComponent {
           .putString('data:image/jpeg;base64,' + data, 'data_url')
         uploadTask
           .on('state_changed', (snapshot: any) => {
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            var progress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
             loader.setContent(`${progress}% uploaded...`);
-            loader.dismiss();
           }, (err) => {
             loader.dismiss();
             this.toast.create({
@@ -70,7 +69,7 @@ export class PhotoComponent {
             }).present();
           }, () => {
             this.appService.myProfileDoc
-              .update({ photo: name })
+              .update({ photo: uploadTask.snapshot.downloadURL })
               .then(() => {
                 loader.dismiss();
                 this.toast.create({

@@ -31,14 +31,6 @@
         <ion-label range-right>{{ ageRange?.value?.upper }}</ion-label>
       </ion-range>
     </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>City</ion-label>
-      <ion-input formControlName="city" type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>State</ion-label>
-      <ion-input formControlName="state" type="text"></ion-input>
-    </ion-item>
     <button ion-button type="submit" block (click)="saveAndNext()">Next</button>
   </form>
 </ion-content>

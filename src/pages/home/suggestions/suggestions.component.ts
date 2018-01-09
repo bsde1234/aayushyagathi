@@ -45,7 +45,7 @@ export class SuggestionsComponent {
     }
 
     return ref
-      .limit(5)
+      .limit(20)
       .get()
       .then((data: any) => {
         const documents = data.docs.filter(doc => doc.id !== this.profile._id);
@@ -55,7 +55,7 @@ export class SuggestionsComponent {
           return { _id: doc.id, ...d };
         });
         this.featured.push(...profiles);
-        if (data.size < 5) this.isFinished = true;
+        if (data.size < 20) this.isFinished = true;
       });
   }
 

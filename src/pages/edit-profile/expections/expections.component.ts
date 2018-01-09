@@ -28,15 +28,13 @@ export class ExpectionsComponent {
       occupation: new FormControl(null, []),
       income: new FormControl(null, []),
       complexion: new FormControl(null),
-      age: new FormControl({ lower: 18, upper: 40 }),
-      city: new FormControl(null),
-      state: new FormControl(null)
+      age: new FormControl({ lower: 18, upper: 40 })
     })
     this.appService.myProfile$.subscribe(profile => {
       this.profile = profile;
       if (this.profile) {
-        const expectionsValues = (({ education, occupation, income, complexion, age, city, state }) =>
-          ({ education, occupation, income, complexion, age, city, state }))(this.profile.partner || {});
+        const expectionsValues = (({ education, occupation, income, complexion, age }) =>
+          ({ education, occupation, income, complexion, age }))(this.profile.partner || {});
 
         this.expectionsForm.patchValue(expectionsValues)
         this.ageRange = <FormControl>this.expectionsForm.get('age')

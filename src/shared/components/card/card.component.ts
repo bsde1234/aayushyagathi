@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core'
 import { ModalController } from 'ionic-angular'
 
 import { ProfileComponent } from '../../../pages/profile/profile.component'
+import { AppService } from '../../../app/app.service';
 
 @Component({
   selector: 'user-profile',
@@ -17,9 +18,12 @@ import { ProfileComponent } from '../../../pages/profile/profile.component'
 
 export class UserProfileComponent {
   @Input() profile;
+  CONSTANTS;
   noPhoto: string = 'assets/imgs/placeholder.png'
-  constructor(private modalCtrl: ModalController) {
-
+  constructor(
+    private modalCtrl: ModalController,
+    appService: AppService) {
+    appService.constants$.subscribe(value => this.CONSTANTS = value);
   }
 
   showProfile(id) {

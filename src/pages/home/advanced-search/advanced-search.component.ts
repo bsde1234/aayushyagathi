@@ -19,13 +19,12 @@ export class AdvancedSearchComponent {
     private appService: AppService) {
 
     this.searchForm = new FormGroup({
+      firstName: new FormControl(null, []),
+      lastName: new FormControl(null, []),
       education: new FormControl(null, []),
       occupation: new FormControl(null, []),
       income: new FormControl(null, []),
-      complexion: new FormControl(null),
       age: new FormControl(null),
-      city: new FormControl(null),
-      state: new FormControl(null)
     })
     this.ageRange = <FormControl>this.searchForm.get('age');
     this.ageRange.setValue({ lower: 18, upper: 40 });

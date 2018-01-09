@@ -2,11 +2,11 @@
   <form [formGroup]="personalInfo">
     <ion-item>
       <ion-label color="primary" floating>First Name</ion-label>
-      <ion-input formControlName="firstName" type="text"></ion-input>
+      <ion-input formControlName="firstName" clearInput></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Last's Name</ion-label>
-      <ion-input formControlName="lastName" type="text"></ion-input>
+      <ion-input formControlName="lastName" clearInput></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>About</ion-label>
@@ -20,7 +20,7 @@
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Father's Name</ion-label>
-      <ion-input formControlName="fatherName" type="text"></ion-input>
+      <ion-input formControlName="fatherName" clearInput></ion-input>
     </ion-item>
     <ion-item>
       <ion-label color="primary" floating>Date of birth</ion-label>
@@ -55,11 +55,11 @@
       </ion-item>
       <ion-item>
         <ion-label color="primary" floating>City</ion-label>
-        <ion-input formControlName="city" type="text"></ion-input>
+        <ion-input formControlName="city" clearInput></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary" floating>State</ion-label>
-        <ion-input formControlName="state" type="text"></ion-input>
+        <ion-input formControlName="state" clearInput></ion-input>
       </ion-item>
     </div>
     <button ion-button type="submit" block (click)="saveAndNext()">Next</button>

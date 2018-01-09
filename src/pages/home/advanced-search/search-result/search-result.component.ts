@@ -77,7 +77,7 @@ export class SearchResultComponent {
           if (condition) {
             this.profiles.push({ _id: doc.id, ...d });
             count++;
-            if (count >= 5) {
+            if (count >= 20) {
               resolve()
               return;
             }
