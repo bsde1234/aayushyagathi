@@ -1,12 +1,9 @@
 import { Component } from '@angular/core'
 import { FormGroup, FormControl } from '@angular/forms'
-
-// import { COMPLEXION, EDUCATION, OCCUPATION, INCOME_RANGE } from '../../../app/app.constants'
-import { SearchResultComponent } from './search-result/search-result.component'
-import { NavController } from 'ionic-angular/navigation/nav-controller';
-import { AppService } from '../../../app/app.service';
 import { ViewController } from 'ionic-angular/navigation/view-controller';
 import { NavParams } from 'ionic-angular/navigation/nav-params';
+
+import { AppService } from '../../../app/app.service';
 
 @Component({
   selector: 'page-advanced-search',
@@ -17,7 +14,7 @@ export class AdvancedSearchComponent {
   searchForm: FormGroup
   ageRange: FormControl
   CONSTANTS;
-  constructor(private navCtrl: NavController,
+  constructor(
     private appService: AppService,
     private viewCtrl: ViewController,
     private navParams: NavParams) {

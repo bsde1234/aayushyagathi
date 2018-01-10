@@ -1,67 +1,69 @@
 <ion-content>
-  <form [formGroup]="personalInfo">
-    <ion-item>
-      <ion-label color="primary" floating>First Name</ion-label>
-      <ion-input formControlName="firstName" clearInput></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Last's Name</ion-label>
-      <ion-input formControlName="lastName" clearInput></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>About</ion-label>
-      <ion-textarea formControlName="about"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Gender</ion-label>
-      <ion-select formControlName="gender" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let gender of CONSTANTS?.GENDER;let i=index">{{ gender }}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Father's Name</ion-label>
-      <ion-input formControlName="fatherName" clearInput></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Date of birth</ion-label>
-      <ion-datetime formControlName="dob" displayFormat="DD/MMM/YY hh:mm A" pickerFormat="DD/MMM/YYYY HH:mm" [min]="minDate" [max]="maxDate"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Height (ft)</ion-label>
-      <ion-input formControlName="height" type="number" step="0.1" min="4" max="8"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Complexion</ion-label>
-      <ion-select formControlName="complexion" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let complexion of CONSTANTS?.COMPLEXION;let i=index">{{complexion}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Mothertongue</ion-label>
-      <ion-select formControlName="motherTongue" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let lang of CONSTANTS?.LANGUAGES;let i=index;">{{lang}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Known Languages</ion-label>
-      <ion-select multiple="true" formControlName="knownLanguages">
-        <ion-option [value]="i" *ngFor="let lang of CONSTANTS?.LANGUAGES;let i=index">{{lang}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <div formGroupName="permAddress">
+  <ion-list>
+    <form [formGroup]="personalInfo">
       <ion-item>
-        <ion-label color="primary" floating>Address</ion-label>
-        <ion-textarea formControlName="address" ></ion-textarea>
+        <ion-label color="primary" floating>First Name</ion-label>
+        <ion-input formControlName="firstName" clearInput></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label color="primary" floating>City</ion-label>
-        <ion-input formControlName="city" clearInput></ion-input>
+        <ion-label color="primary" floating>Last's Name</ion-label>
+        <ion-input formControlName="lastName" clearInput></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label color="primary" floating>State</ion-label>
-        <ion-input formControlName="state" clearInput></ion-input>
+        <ion-label color="primary" floating>About</ion-label>
+        <ion-textarea formControlName="about"></ion-textarea>
       </ion-item>
-    </div>
-    <button ion-button type="submit" block (click)="saveAndNext()">Next</button>
-  </form>
+      <ion-item>
+        <ion-label color="primary" floating>Gender</ion-label>
+        <ion-select formControlName="gender" interface="action-sheet">
+          <ion-option [value]="i" *ngFor="let gender of CONSTANTS?.GENDER;let i=index">{{ gender }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Father's Name</ion-label>
+        <ion-input formControlName="fatherName" clearInput></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Date of birth</ion-label>
+        <ion-datetime formControlName="dob" displayFormat="DD/MMM/YY hh:mm A" pickerFormat="DD/MMM/YYYY HH:mm" [min]="minDate" [max]="maxDate"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Height (ft)</ion-label>
+        <ion-input formControlName="height" type="number" step="0.1" min="4" max="8"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Complexion</ion-label>
+        <ion-select formControlName="complexion" interface="action-sheet">
+          <ion-option [value]="i" *ngFor="let complexion of CONSTANTS?.COMPLEXION;let i=index">{{complexion}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Mothertongue</ion-label>
+        <ion-select formControlName="motherTongue" interface="action-sheet">
+          <ion-option [value]="i" *ngFor="let lang of CONSTANTS?.LANGUAGES;let i=index;">{{lang}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Known Languages</ion-label>
+        <ion-select multiple="true" formControlName="knownLanguages">
+          <ion-option [value]="i" *ngFor="let lang of CONSTANTS?.LANGUAGES;let i=index">{{lang}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div formGroupName="permAddress">
+        <ion-item>
+          <ion-label color="primary" floating>Address</ion-label>
+          <ion-textarea formControlName="address"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>City</ion-label>
+          <ion-input formControlName="city" clearInput></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>State</ion-label>
+          <ion-input formControlName="state" clearInput></ion-input>
+        </ion-item>
+      </div>
+    </form>
+  </ion-list>
+  <button ion-button type="submit" block (click)="saveAndNext()">Next</button>
 </ion-content>

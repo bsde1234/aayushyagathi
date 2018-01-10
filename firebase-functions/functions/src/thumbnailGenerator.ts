@@ -7,7 +7,7 @@ import * as gCloudStorage from "@google-cloud/storage";
 
 import { database, initializeApp } from "firebase-admin";
 
-const gcs = gCloudStorage(({ keyFilename: 'serviceAccountKey.json' }));
+const gcs = gCloudStorage(({ keyFilename: './serviceAccountKey.json' }));
 initializeApp(config().firebase);
 
 const path = require('path');
@@ -25,7 +25,7 @@ const THUMB_PREFIX = 'thumb_';
  * After the thumbnail has been generated and uploaded to Cloud Storage,
  * we write the public URL to the Firebase Realtime Database.
  */
-exports.generateThumbnail = storage.object().onChange(event => {
+export const generateThumbnail = storage.object().onChange(event => {
   // File and directory paths.
   const filePath = event.data.name;
   const contentType = event.data.contentType; // This is the image Mimme type

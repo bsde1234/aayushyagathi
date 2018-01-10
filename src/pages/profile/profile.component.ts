@@ -5,6 +5,7 @@ import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular/components/slides/slides';
 import { AppService } from '../../app/app.service';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 @Component({
   selector: 'page-profile',
@@ -28,7 +29,8 @@ export class ProfileComponent {
     private navCtrl: NavController,
     private afs: AngularFirestore,
     private appService: AppService,
-    private loader: LoadingController) {
+    private loader: LoadingController,
+    private toast: ToastController) {
   }
 
   ngOnInit() {
@@ -55,6 +57,24 @@ export class ProfileComponent {
   }
 
   markFavourite(id, favourites) {
-    this.appService.toggleShortlist(id, favourites);
+    this.appService.toggleShortlist(id, favourites).then(() => {
+      if (favourites) {
+        this.toast.create({
+          message: 'Profile added to favourite',
+          duration: 1500,
+          position: 'bottom',
+          dismissOnPageChange: true,
+          showCloseButton: true
+        }).present();
+      } else {
+        this.toast.create({
+          message: 'Profile removed from favourite',
+          duration: 1500,
+          position: 'bottom',
+          dismissOnPageChange: true,
+          showCloseButton: true
+        }).present();
+      }
+    });
   }
 }

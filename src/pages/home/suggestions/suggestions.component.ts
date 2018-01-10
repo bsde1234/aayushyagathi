@@ -19,7 +19,7 @@ export class SuggestionsComponent {
   isFinished = false;
   break = false;
   loading = false;
-  filterProps: any = { age: { lower: 0, upper: 40 } };
+  filterProps: any = { age: { lower: 18, upper: 40 } };
   constructor(private modalCtrl: ModalController,
     private afs: AngularFirestore,
     private appService: AppService,
@@ -130,7 +130,17 @@ export class SuggestionsComponent {
         this.filterProps = data;
         this.referenceToOldestKey = undefined;
         this.featured = [];
-        this.loadDocs();
+        const loader = this.loadingCtrl.create({
+          spinner: 'dots',
+          dismissOnPageChange: true,
+          content: 'Loading data...',
+          enableBackdropDismiss: false
+        });
+        loader.present();
+
+        this.loadDocs().then(() => {
+          loader.dismiss();
+        });
       }
     })
     searchFilterModal

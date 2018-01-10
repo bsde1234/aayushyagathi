@@ -1,1 +1,19 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-nav #notificationsMenu [root]="rootPage"></ion-nav>
+
+<ion-menu [content]="notificationsMenu" side="right" type="overlay">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-card>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati ipsam et adipisci accusantium nemo iusto numquam cumque
+          harum accusamus ratione ducimus optio itaque qui laboriosam asperiores, voluptatum, nobis placeat eaque.
+        </p>
+      </ion-card>
+    </ion-list>
+  </ion-content>
+</ion-menu>

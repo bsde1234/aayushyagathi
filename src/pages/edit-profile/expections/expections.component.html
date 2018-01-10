@@ -1,36 +1,38 @@
 <ion-content>
-  <form [formGroup]="expectionsForm">
-    <ion-item>
-      <ion-label color="primary" floating>Education</ion-label>
-      <ion-select formControlName="education" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let edu of CONSTANTS?.EDUCATION;let i=index">{{ edu }}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Occupation</ion-label>
-      <ion-select formControlName="occupation" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let job of CONSTANTS?.OCCUPATION;let i=index">{{ job }}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Annual Income</ion-label>
-      <ion-select formControlName="income" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let income of CONSTANTS?.INCOME_RANGE;let i=index;">{{ income }}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Complexion</ion-label>
-      <ion-select formControlName="complexion" interface="action-sheet">
-        <ion-option [value]="i" *ngFor="let complexion of CONSTANTS?.COMPLEXION; let i=index">{{complexion}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary">Age</ion-label>
-      <ion-range formControlName="age" dualKnobs="true" min="18" max="40" step="1" color="primary">
-        <ion-label range-left>{{ ageRange?.value?.lower }}</ion-label>
-        <ion-label range-right>{{ ageRange?.value?.upper }}</ion-label>
-      </ion-range>
-    </ion-item>
-    <button ion-button type="submit" block (click)="saveAndNext()">Next</button>
-  </form>
+  <ion-list>
+    <form [formGroup]="expectionsForm">
+      <ion-item>
+        <ion-label color="primary" floating>Education</ion-label>
+        <ion-select formControlName="education" interface="action-sheet">
+          <ion-option [value]="i" *ngFor="let edu of CONSTANTS?.EDUCATION;let i=index">{{ edu }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Occupation</ion-label>
+        <ion-select formControlName="occupation" interface="action-sheet">
+          <ion-option [value]="i" *ngFor="let job of CONSTANTS?.OCCUPATION;let i=index">{{ job }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Annual Income</ion-label>
+        <ion-select formControlName="income" interface="action-sheet">
+          <ion-option [value]="i" *ngFor="let income of CONSTANTS?.INCOME_RANGE;let i=index;">{{ income }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Complexion</ion-label>
+        <ion-select formControlName="complexion" interface="action-sheet">
+          <ion-option [value]="i" *ngFor="let complexion of CONSTANTS?.COMPLEXION; let i=index">{{complexion}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Age</ion-label>
+        <ion-range formControlName="age" dualKnobs="true" min="18" max="40" step="1" color="primary">
+          <ion-label range-left>{{ ageRange?.value?.lower }}</ion-label>
+          <ion-label range-right>{{ ageRange?.value?.upper }}</ion-label>
+        </ion-range>
+      </ion-item>
+    </form>
+  </ion-list>
+  <button ion-button type="submit" block (click)="saveAndNext()">Next</button>
 </ion-content>
