@@ -32,7 +32,10 @@ export class ProfileComponent {
   }
 
   ngOnInit() {
-    const loader = this.loader.create({});
+    const loader = this.loader.create({
+      content: 'Loading profile...',
+      spinner: 'dots'
+    });
     loader.present();
     this.profileId = this.params.get('profileId')
     this.afs.collection('profiles')

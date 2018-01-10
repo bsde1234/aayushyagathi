@@ -16,7 +16,12 @@ export class LoginComponent {
   ) {
   }
   login() {
-    const loader = this.loading.create();
+    const loader = this.loading.create({
+      content: 'Signing in...',
+      spinner: 'dots',
+      dismissOnPageChange: true,
+      enableBackdropDismiss: false
+    });
     loader.present();
     this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())
       .then(val => {

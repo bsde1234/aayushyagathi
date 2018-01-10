@@ -5,6 +5,8 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { SearchResultComponent } from './search-result/search-result.component'
 import { NavController } from 'ionic-angular/navigation/nav-controller';
 import { AppService } from '../../../app/app.service';
+import { ViewController } from 'ionic-angular/navigation/view-controller';
+import { NavParams } from 'ionic-angular/navigation/nav-params';
 
 @Component({
   selector: 'page-advanced-search',
@@ -16,7 +18,9 @@ export class AdvancedSearchComponent {
   ageRange: FormControl
   CONSTANTS;
   constructor(private navCtrl: NavController,
-    private appService: AppService) {
+    private appService: AppService,
+    private viewCtrl: ViewController,
+    private navParams: NavParams) {
 
     this.searchForm = new FormGroup({
       firstName: new FormControl(null, []),
@@ -29,9 +33,14 @@ export class AdvancedSearchComponent {
     this.ageRange = <FormControl>this.searchForm.get('age');
     this.ageRange.setValue({ lower: 18, upper: 40 });
     this.appService.constants$.subscribe(data => this.CONSTANTS = data);
+    this.searchForm.patchValue(this.navParams.data);
   }
 
   search() {
-    this.navCtrl.parent.parent.push(SearchResultComponent, { query: this.searchForm.value });
+    this.viewCtrl.dismiss(this.searchForm.value);
+  }
+
+  closeModal() {
+    this.viewCtrl.dismiss();
   }
 }

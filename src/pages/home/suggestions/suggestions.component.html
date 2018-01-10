@@ -1,6 +1,15 @@
 <ion-content style="background:lightgray">
   <user-profile [profile]="profile" *ngFor="let profile of featured"></user-profile>
+  <ion-fab bottom right>
+    <button ion-fab color="danger" *ngIf="!loading" (click)="openSearchFilter()">
+      <ion-icon name="search"></ion-icon>
+    </button>
+    <button ion-fab color="danger" *ngIf="loading" (click)="stopSearch()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-fab>
+
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
-    <ion-infinite-scroll-content>Loading...</ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingSpinner="dots" threshold="5%" ></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

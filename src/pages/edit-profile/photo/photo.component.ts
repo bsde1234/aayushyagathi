@@ -38,7 +38,8 @@ export class PhotoComponent {
   }
   uploadImage() {
     const loader = this.loader.create({
-      content: 'Saving...'
+      content: 'Saving...',
+      spinner: 'dots'
     });
     const options: CameraOptions = {
       quality: 100,

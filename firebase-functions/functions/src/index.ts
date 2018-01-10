@@ -1,4 +1,5 @@
-export * from './addIdOnCreateProfile'
+export * from './addIdOnCreateProfile';
+export * from './thumbnailGenerator';
 // // Start writing Firebase Functions
 // // https://firebase.google.com/functions/write-firebase-functions
 //

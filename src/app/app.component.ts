@@ -26,7 +26,12 @@ export class MyApp {
     loading: LoadingController,
     fcm: FCM,
     appService: AppService) {
-    const loader = loading.create();
+    const loader = loading.create({
+      content: 'Signing in...',
+      spinner: 'dots',
+      dismissOnPageChange: true,
+      enableBackdropDismiss: false
+    });
     loader.present();
     afire.authState.subscribe((user) => {
       if (user) {

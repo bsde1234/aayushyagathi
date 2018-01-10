@@ -35,3 +35,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 google-services.json
 firebase-functions/functions/lib/
+firebase-functions/functions/src/serviceAccountKey.json

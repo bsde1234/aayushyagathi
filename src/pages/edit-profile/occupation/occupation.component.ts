@@ -49,7 +49,8 @@ export class OccupationComponent {
 
   saveAndNext() {
     this.loading = this.loadingCtrl.create({
-      content: 'Saving...'
+      content: 'Saving...',
+      spinner: 'dots'
     })
     this.loading.present()
     const personalInfoValue = {};
