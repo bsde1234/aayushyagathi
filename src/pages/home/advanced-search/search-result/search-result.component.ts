@@ -16,12 +16,18 @@ export class PendingUsersComponent {
     private loader: LoadingController) { }
 
   ngOnInit() {
+    this.loadDocs()
+  }
+
+  loadDocs(refresher?) {
     const loading = this.loader.create({
       content: 'Loading data...',
       dismissOnPageChange: true,
       spinner: 'dots'
-    })
-    loading.present();
+    });
+    if (!refresher) {
+      loading.present();
+    }
     this.afs.collection('profiles', ref => {
       let docRef = ref
         .orderBy('_id')
@@ -30,10 +36,13 @@ export class PendingUsersComponent {
     }).valueChanges()
       .subscribe(docs => {
         this.profiles = docs;
-        loading.dismiss();
+        if (!refresher) {
+          loading.dismiss();
+        } else {
+          refresher.complete();
+        }
       });
   }
-
   showProfile(id) {
     const modal = this.modalCtrl.create(ProfileComponent, { profileId: id, isModerator: true })
     modal.present()

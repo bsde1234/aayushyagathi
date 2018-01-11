@@ -1,6 +1,6 @@
 <ion-content style="background:lightgray">
   <ion-list [virtualScroll]="favouriteList" approxItemHeight="126px">
-    <div *virtualItem="let profile" style="width:100%;height:110px;">
+    <div *virtualItem="let profile" style="width:100%;">
       <user-profile [profile]="profile"></user-profile>
     </div>
   </ion-list>

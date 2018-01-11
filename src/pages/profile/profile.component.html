@@ -18,9 +18,27 @@
       <ion-card-title>
         {{profileData?.firstName}} {{profileData?.lastName}}
       </ion-card-title>
-      <p>
-        {{profileData?.about}}
-      </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <ion-item-group>
+        <ion-item-divider color="light">Occupation</ion-item-divider>
+        <ion-item>
+          <p>Education:</p>
+          <h2>{{ CONSTANTS?.EDUCATION[profileData?.education] }}</h2>
+          <h2 *ngIf="profileData?.education===0">{{ profileData?.otherEducation || "-" }}</h2>
+        </ion-item>
+        <ion-item>
+          <p>Occupation:</p>
+          <h2>{{ CONSTANTS?.OCCUPATION[profileData?.occupation] }}</h2>
+          <h2 *ngIf="profileData?.occupation===0">{{ profileData?.otherOccupation || "-" }}</h2>
+        </ion-item>
+        <ion-item>
+          <p>Annual Income:</p>
+          <h2>{{ CONSTANTS?.INCOME_RANGE[profileData?.income] || "-" }}</h2>
+        </ion-item>
+      </ion-item-group>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -74,27 +92,6 @@
           <h2>
             <span>{{ profileData?.permAddress?.state || "-" }}</span>
           </h2>
-        </ion-item>
-      </ion-item-group>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-content>
-      <ion-item-group>
-        <ion-item-divider color="light">Occupation</ion-item-divider>
-        <ion-item>
-          <p>Education:</p>
-          <h2>{{ CONSTANTS?.EDUCATION[profileData?.education] }}</h2>
-          <h2 *ngIf="profileData?.education===0">{{ profileData?.otherEducation || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Occupation:</p>
-          <h2>{{ CONSTANTS?.OCCUPATION[profileData?.occupation] }}</h2>
-          <h2 *ngIf="profileData?.occupation===0">{{ profileData?.otherOccupation || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Annual Income:</p>
-          <h2>{{ CONSTANTS?.INCOME_RANGE[profileData?.income] || "-" }}</h2>
         </ion-item>
       </ion-item-group>
     </ion-card-content>
@@ -159,7 +156,7 @@
       </ng-template>
     </ion-buttons>
 
-    <!-- Implement share button in future -->
+        <!-- Implement share button in future -->
     <!-- <ion-buttons right>
       <button ion-button icon-left clear small>
         <ion-icon name="share"></ion-icon>

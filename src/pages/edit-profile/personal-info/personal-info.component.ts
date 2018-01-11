@@ -1,6 +1,6 @@
-import { Component, Host } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { Tab, ToastController, LoadingController, Loading } from 'ionic-angular'
+import { ToastController, LoadingController, Loading } from 'ionic-angular'
 
 // import { LANGUAGES, COMPLEXION, GENDER } from '../../../app/app.constants'
 import { AppService } from '../../../app/app.service'

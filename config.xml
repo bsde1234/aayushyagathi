@@ -83,7 +83,6 @@
         </host>
     </universal-links>
     <preference name="AndroidLaunchMode" value="singleTask" />
-    <allow-navigation href="http://192.168.1.100:8100" />
     <platform name="android">
         <preference name="APP_SECRET" value="1139c5a3-b8c8-490b-a0a4-ce18c68f0711" />
     </platform>

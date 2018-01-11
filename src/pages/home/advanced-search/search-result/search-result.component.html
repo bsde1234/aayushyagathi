@@ -1,4 +1,7 @@
 <ion-content>
+  <ion-refresher (ionRefresh)="loadDocs($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"></ion-refresher-content>
+  </ion-refresher>
   <user-profile [profile]="profile" *ngFor="let profile of profiles"></user-profile>
   <label *ngIf="!profiles?.length">No profiles to approve</label>
 </ion-content>
