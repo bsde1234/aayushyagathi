@@ -1,15 +1,4 @@
-<ion-header no-border>
-  <ion-navbar color="primary">
-    <ion-title>
-      Search result
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
 <ion-content>
   <user-profile [profile]="profile" *ngFor="let profile of profiles"></user-profile>
-  <label *ngIf="!profiles?.length">No profiles found</label>
-  <ion-infinite-scroll *ngIf="!isFinished" (ionInfinite)="$event.waitFor(doInfinite())">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  <label *ngIf="!profiles?.length">No profiles to approve</label>
 </ion-content>

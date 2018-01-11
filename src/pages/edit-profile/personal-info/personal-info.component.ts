@@ -4,6 +4,7 @@ import { Tab, ToastController, LoadingController, Loading } from 'ionic-angular'
 
 // import { LANGUAGES, COMPLEXION, GENDER } from '../../../app/app.constants'
 import { AppService } from '../../../app/app.service'
+import { NavController } from 'ionic-angular/navigation/nav-controller';
 
 @Component({
   selector: 'page-personal',
@@ -13,17 +14,16 @@ export class personalInfoComponent {
   personalInfo: FormGroup
   profile: any
   CONSTANTS
-  _parent: Tab
   minDate = new Date().getFullYear() - 35
   maxDate = new Date().getFullYear() - 18
   private loading: Loading;
-  constructor( @Host() _parent: Tab,
+  constructor(
+    private navCtrl: NavController,
     private appService: AppService,
     private toastCtrl: ToastController,
     public loadingCtrl: LoadingController
   ) {
     this.appService.constants$.subscribe(constant => this.CONSTANTS = constant);
-    this._parent = _parent
     this.personalInfo = new FormGroup({
       firstName: new FormControl(null, [Validators.required]),
       lastName: new FormControl(null, [Validators.required]),
@@ -108,7 +108,7 @@ export class personalInfoComponent {
       duration: 3000
     });
     toast.present()
-    console.log(this)
-    this._parent.parent.select(2);
+    console.log(this.navCtrl)
+    this.navCtrl.parent.select(2);
   }
 }

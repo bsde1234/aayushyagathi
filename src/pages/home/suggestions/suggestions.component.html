@@ -1,4 +1,7 @@
 <ion-content style="background:lightgray">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"></ion-refresher-content>
+  </ion-refresher>
   <user-profile [profile]="profile" *ngFor="let profile of featured"></user-profile>
   <ion-fab bottom right>
     <button ion-fab color="danger" *ngIf="!loading" (click)="openSearchFilter()">
@@ -10,6 +13,6 @@
   </ion-fab>
 
   <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite($event))">
-    <ion-infinite-scroll-content loadingSpinner="dots" threshold="5%" ></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingSpinner="dots" threshold="5%"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

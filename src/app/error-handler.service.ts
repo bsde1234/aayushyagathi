@@ -12,7 +12,7 @@ export class ErrorHanderService implements ErrorHandler {
     console.error(error)
     const alert = this.injector.get(AlertController);
     alert.create({
-      message: error.Message || 'Unknown Error',
+      message: error.message || 'Unknown Error',
       title: 'Error',
       enableBackdropDismiss: true,
       buttons: ['OK']

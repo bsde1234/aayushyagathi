@@ -50,7 +50,8 @@ export class SuggestionsComponent {
     this.loading = true;
     var docRef = this.afs.collection('profiles').ref
       .orderBy('_id')
-
+      .where('gender', "==", this.profile.gender === 1 ? 0 : 1)
+      .where('isDisabled', '==', false)
     if (this.referenceToOldestKey) {
       docRef = docRef.startAfter(this.referenceToOldestKey);
     }
@@ -149,5 +150,13 @@ export class SuggestionsComponent {
 
   stopSearch() {
     this.break = true;
+  }
+
+  doRefresh(refresher) {
+    this.referenceToOldestKey = undefined;
+    this.featured = [];
+    this.loadDocs().then(() => {
+      refresher.complete();
+    });
   }
 }

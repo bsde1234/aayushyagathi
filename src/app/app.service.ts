@@ -12,6 +12,8 @@ export class AppService {
   myProfileDoc: AngularFirestoreDocument<any>;
   myProfile$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
+  isModerator$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   updateStatus$: BehaviorSubject<any> = new BehaviorSubject<any>({ updateAvailable: false });
 
   constants$: BehaviorSubject<any> = new BehaviorSubject<any>({});
@@ -51,6 +53,14 @@ export class AppService {
       .valueChanges().subscribe(docs => {
         this.constants$.next(docs);
       });
+
+    this.afs.collection('moderators')
+      .doc('moderators')
+      .valueChanges().subscribe(docs => {
+        this.isModerator$.next(true);
+      }, err => {
+        this.isModerator$.next(false);
+      })
   }
 
   toggleShortlist(id, favourites) {

@@ -12,8 +12,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <form [formGroup]="searchForm">
+  <form [formGroup]="searchForm">
+    <ion-list>
       <ion-item>
         <ion-label color="primary" floating>First Name</ion-label>
         <ion-input formControlName="firstName" type="text"></ion-input>
@@ -47,7 +47,7 @@
           <ion-label range-right>{{ ageRange.value?.upper }}</ion-label>
         </ion-range>
       </ion-item>
-    </form>
-  </ion-list>
+    </ion-list>
+  </form>
   <button ion-button type="submit" block (click)="search()">Search</button>
 </ion-content>
