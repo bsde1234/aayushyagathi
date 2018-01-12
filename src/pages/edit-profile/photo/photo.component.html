@@ -1,17 +1,9 @@
 <ion-content>
-  <form>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <img [src]="profile?.photo || noPhoto">
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <ion-fab bottom right>
-      <button ion-fab color="danger" (click)="uploadImage()">
-        <ion-icon name="upload"></ion-icon>
-      </button>
-    </ion-fab>
-    <button ion-button type="submit" block (click)="save()">Save</button>
-  </form>
+  <img [src]="profile?.photo || noPhoto">
+  <ion-fab bottom right>
+    <button ion-fab color="danger" (click)="uploadImage()">
+      <ion-icon name="cloud-upload"></ion-icon>
+    </button>
+  </ion-fab>
+  <!-- <button ion-button type="submit" block (click)="save()">Save</button> -->
 </ion-content>

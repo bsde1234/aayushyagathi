@@ -5,4 +5,3 @@ export const addIdOnCreateProfile = document('profiles/{userId}')
     const id = event.data.id;
     return event.data.ref.update({ _id: id })
   });
-

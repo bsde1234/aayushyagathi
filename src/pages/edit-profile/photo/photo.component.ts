@@ -22,9 +22,6 @@ export class PhotoComponent {
     private toast: ToastController
   ) {
     this.appService.myProfileDoc.snapshotChanges()
-      .map(val => {
-        return { _id: val.payload.id, data: val.payload.data() };
-      })
       .subscribe(profile => {
         this.profile = profile;
       });

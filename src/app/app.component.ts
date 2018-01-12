@@ -17,11 +17,12 @@ import { AppService } from './app.service';
 })
 export class MyApp {
   rootPage: any = LoginComponent;
+  updateStatus;
   constructor(platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
     afire: AngularFireAuth,
-    afs: AngularFirestore,
+    private afs: AngularFirestore,
     codepush: CodePush,
     loading: LoadingController,
     fcm: FCM,
@@ -33,38 +34,44 @@ export class MyApp {
       enableBackdropDismiss: false
     });
     loader.present();
-    afire.authState.subscribe((user) => {
-      if (user) {
-        appService.loadInitData()
-        this.rootPage = HomePage;
-        const profileDoc = afs.collection('profiles').doc(user.uid);
-        profileDoc
-          .valueChanges()
-          .subscribe(profile => {
-            if (!profile) {
-              var usrName = (user.displayName || ' ').split(' ');
-              profileDoc.set({ firstName: usrName[0], lastName: usrName[1] }, { merge: true });
-            }
-            loader.dismiss();
-          });
-      } else {
-        this.rootPage = LoginComponent;
-        loader.dismiss();
-      }
-    })
     platform.ready().then(() => {
+      afire.authState.subscribe((user) => {
+        if (user) {
+          appService.loadInitData()
+          this.rootPage = HomePage;
+          const profileDoc = afs.collection('profiles').doc(user.uid);
+          profileDoc
+            .valueChanges()
+            .subscribe(profile => {
+              if (!profile) {
+                var usrName = (user.displayName || ' ').split(' ');
+                profileDoc.set({ firstName: usrName[0], lastName: usrName[1] }, { merge: true });
+              }
+              loader.dismiss();
+            });
+          if (platform.is('cordova')) {
+            splashScreen.hide();
+            fcm.getToken().then(token => {
+              this.saveFCMToken(user.uid, token);
+            });
+            fcm.onTokenRefresh().subscribe(token => {
+              this.saveFCMToken(user.uid, token);
+            });
+          }
+        } else {
+          this.rootPage = LoginComponent;
+          loader.dismiss();
+        }
+      })
       if (platform.is('cordova')) {
         statusBar.styleDefault();
         splashScreen.hide();
-        codepush.sync({}, (status) => appService.updateStatus$.next(status))
-          .subscribe((syncStatus) => console.log(2, syncStatus));
+        // codepush.sync({}, (status) => {
+        //   appService.updateStatus$.next(status);
+        //   this.updateStatus = status;
+        // })
+        //   .subscribe((syncStatus) => console.log(2, syncStatus));
 
-        fcm.getToken().then(token => {
-          console.log(token)
-        });
-        fcm.onTokenRefresh().subscribe(token => {
-          console.log(token)
-        });
         fcm.onNotification().subscribe(data => {
           console.log(data);
           if (data.wasTapped) {
@@ -74,6 +81,10 @@ export class MyApp {
         });
       }
     });
+  }
+
+  saveFCMToken(userId, FcmToken) {
+    this.afs.collection('users').doc(userId).update({ FcmToken })
   }
 }
 

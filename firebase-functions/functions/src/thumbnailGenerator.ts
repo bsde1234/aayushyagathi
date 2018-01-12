@@ -2,12 +2,13 @@ import { storage, config } from "firebase-functions";
 import { unlinkSync } from "fs";
 import { spawn } from "child_process";
 import * as mkdirp from "mkdirp-promise";
+import { serviceAccountKey } from './serviceAccountKey'
 // Include a Service Account Key to use a Signed URL
 import * as gCloudStorage from "@google-cloud/storage";
 
 import { database, initializeApp } from "firebase-admin";
 
-const gcs = gCloudStorage(({ keyFilename: './serviceAccountKey.json' }));
+const gcs = gCloudStorage(serviceAccountKey);
 initializeApp(config().firebase);
 
 const path = require('path');

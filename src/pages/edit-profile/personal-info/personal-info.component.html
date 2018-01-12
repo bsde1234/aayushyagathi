@@ -43,12 +43,6 @@
           <ion-option [value]="i" *ngFor="let lang of CONSTANTS?.LANGUAGES;let i=index;">{{lang}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item>
-        <ion-label color="primary" floating>Known Languages</ion-label>
-        <ion-select multiple="true" formControlName="knownLanguages">
-          <ion-option [value]="i" *ngFor="let lang of CONSTANTS?.LANGUAGES;let i=index">{{lang}}</ion-option>
-        </ion-select>
-      </ion-item>
       <div formGroupName="permAddress">
         <ion-item>
           <ion-label color="primary" floating>Address</ion-label>
