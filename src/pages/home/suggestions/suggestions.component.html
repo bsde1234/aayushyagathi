@@ -3,6 +3,7 @@
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"></ion-refresher-content>
   </ion-refresher>
   <user-profile [profile]="profile" *ngFor="let profile of featured"></user-profile>
+  <ion-spinner *ngIf="loading" color="primary" name="crescent"></ion-spinner>
   <ion-fab bottom right>
     <button ion-fab color="danger" *ngIf="!loading" (click)="openSearchFilter()">
       <ion-icon name="search"></ion-icon>

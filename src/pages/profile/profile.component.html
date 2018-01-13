@@ -18,6 +18,10 @@
       <ion-card-title>
         {{profileData?.firstName}} {{profileData?.lastName}}
       </ion-card-title>
+      <p>
+        <ion-icon name="call"></ion-icon>
+        <a href="tel:{{profileData?.mobile}}"> {{profileData?.mobile}}</a>
+      </p>
     </ion-card-content>
   </ion-card>
   <ion-card>

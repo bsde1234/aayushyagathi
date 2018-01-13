@@ -27,7 +27,6 @@ export class FavouriteComponent {
     this.afs.collection('profiles')
       .snapshotChanges()
       .map(data => {
-        console.log(data)
         let filtered = data.filter(doc => {
           const result = doc.payload.doc.exists && (this.favourites.indexOf(doc.payload.doc.id) !== -1);
           return !!result;

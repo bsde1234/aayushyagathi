@@ -22,21 +22,16 @@ export class SuggestionsComponent {
   filterProps: any = { age: { lower: 18, upper: 40 } };
   constructor(private modalCtrl: ModalController,
     private afs: AngularFirestore,
-    private appService: AppService,
-    private loadingCtrl: LoadingController) {
-    const loader = this.loadingCtrl.create({
-      spinner: 'dots',
-      dismissOnPageChange: true,
-      content: 'Loading data...',
-      enableBackdropDismiss: false
-    });
-    loader.present();
+    private appService: AppService) {
+
     this.appService.myProfile$.subscribe((profile) => {
       this.profile = profile;
       if (profile) {
-        this.loadDocs().then(() => {
-          loader.dismiss();
-        });
+        this.loading = true;
+        this.loadDocs()
+          .then(() => {
+            this.loading = false;
+          })
       }
     });
   }
@@ -47,7 +42,6 @@ export class SuggestionsComponent {
   }
 
   private loadDocs(remaining?, isRefresh?) {
-    this.loading = true;
     var docRef = this.afs.collection('profiles').ref
       .orderBy('_id')
       .where('gender', "==", this.profile.gender === 1 ? 0 : 1)
@@ -62,7 +56,6 @@ export class SuggestionsComponent {
         if (isRefresh) {
           this.featured = [];
         }
-        this.loading = false;
         if (value.size) {
           let docs = this.filterProfiles(value.docs.map(doc => doc.data()));
           if (docs.length) {
@@ -79,7 +72,7 @@ export class SuggestionsComponent {
             }
           }
         }
-        return true;
+        return value;
       });
   }
 
@@ -135,16 +128,9 @@ export class SuggestionsComponent {
         this.filterProps = data;
         this.referenceToOldestKey = undefined;
         this.featured = [];
-        const loader = this.loadingCtrl.create({
-          spinner: 'dots',
-          dismissOnPageChange: true,
-          content: 'Loading data...',
-          enableBackdropDismiss: false
-        });
-        loader.present();
-
+        this.loading = true;
         this.loadDocs().then(() => {
-          loader.dismiss();
+          this.loading = false;
         });
       }
     })

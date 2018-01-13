@@ -1,10 +1,12 @@
 import { Component } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { ToastController, LoadingController, Loading } from 'ionic-angular'
-
+import * as firebase from "firebase";
 // import { LANGUAGES, COMPLEXION, GENDER } from '../../../app/app.constants'
 import { AppService } from '../../../app/app.service'
 import { NavController } from 'ionic-angular/navigation/nav-controller';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
 @Component({
   selector: 'page-personal',
@@ -17,11 +19,14 @@ export class personalInfoComponent {
   minDate = new Date().getFullYear() - 35
   maxDate = new Date().getFullYear() - 18
   private loading: Loading;
+  recaptchaVerifier
   constructor(
     private navCtrl: NavController,
     private appService: AppService,
     private toastCtrl: ToastController,
-    public loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private afAuth: AngularFireAuth,
+    private alertCtrl: AlertController
   ) {
     this.appService.constants$.subscribe(constant => this.CONSTANTS = constant);
     this.personalInfo = new FormGroup({
@@ -55,8 +60,22 @@ export class personalInfoComponent {
       this.personalInfo.patchValue(personalInfoValue)
     });
   }
+  ionViewDidLoad() {
+    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      'size': 'invisible'
+    });
+  }
 
   saveAndNext() {
+    const mobileNumber = this.personalInfo.get('mobile').value;
+    if (this.personalInfo.get('mobile').dirty) {
+      this.addMobileNumber(mobileNumber);
+    } else {
+      this.saveData();
+    }
+  }
+
+  saveData() {
     Object.keys(this.personalInfo.controls)
       .forEach(key => {
         this.personalInfo.get(key).markAsTouched();
@@ -109,5 +128,73 @@ export class personalInfoComponent {
     });
     toast.present()
     this.navCtrl.parent.select(1);
+  }
+
+  addMobileNumber(mobileNumber) {
+    const loader = this.loadingCtrl.create({
+      content: 'Saving...',
+      spinner: 'dots'
+    })
+    loader.present();
+    var a = new firebase.auth.PhoneAuthProvider(this.afAuth.auth)
+    a.verifyPhoneNumber('+91' + mobileNumber, this.recaptchaVerifier)
+      .then((verificationId) => {
+        loader.dismiss();
+        this.verifyOTP(verificationId);
+      })
+      .catch((err) => {
+        loader.dismiss();
+        if (err.code === "auth/invalid-phone-number") {
+          this.alertCtrl.create({
+            message: 'Invalid Phone Number',
+            buttons: ['OK'],
+            title: 'Error'
+          }).present();
+        } else {
+          this.alertCtrl.create({
+            message: err.message,
+            buttons: ['OK'],
+            title: 'Error'
+          }).present();
+        }
+        // return err;
+      });
+  }
+
+  private verifyOTP(verificationId) {
+    const otpPrompt = this.alertCtrl.create({
+      title: 'Enter Verification code',
+      inputs: [{ name: 'confirmationCode', placeholder: 'Confirmation Code' }],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            otpPrompt.dismiss();
+          }
+        },
+        {
+          text: 'Send',
+          handler: data => {
+            const auth = firebase.auth.PhoneAuthProvider
+              .credential(verificationId, data.confirmationCode)
+            this.afAuth.auth.currentUser.updatePhoneNumber(auth)
+              .then(() => {
+                this.saveData();
+              })
+              .catch(err => {
+                if (err.code === 'auth/invalid-verification-code') {
+                  this.alertCtrl.create({
+                    message: 'Invalid Verification Code, Please try again.'
+                  }).present().then(() => {
+                    this.verifyOTP(verificationId);
+                  });
+                }
+              })
+          }
+        }
+      ]
+    });
+    otpPrompt
+      .present();
   }
 }

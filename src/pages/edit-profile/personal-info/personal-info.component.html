@@ -4,6 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
+  <div id="recaptcha-container"></div>
   <ion-list>
     <form [formGroup]="personalInfo">
       <ion-item>
@@ -15,8 +16,8 @@
         <ion-input formControlName="lastName" clearInput></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label color="primary" floating>Mobile Number</ion-label>
-        <ion-input formControlName="mobile" clearInput></ion-input>
+        <ion-label color="primary">+91</ion-label>
+        <ion-input formControlName="mobile" placeholder="Mobile Number" clearInput></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary" floating>Gender</ion-label>
