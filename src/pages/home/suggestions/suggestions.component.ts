@@ -46,7 +46,7 @@ export class SuggestionsComponent {
     modal.present();
   }
 
-  private loadDocs(remaining?) {
+  private loadDocs(remaining?, isRefresh?) {
     this.loading = true;
     var docRef = this.afs.collection('profiles').ref
       .orderBy('_id')
@@ -59,6 +59,9 @@ export class SuggestionsComponent {
       .limit(20)
       .get()
       .then(value => {
+        if (isRefresh) {
+          this.featured = [];
+        }
         this.loading = false;
         if (value.size) {
           let docs = this.filterProfiles(value.docs.map(doc => doc.data()));
@@ -76,6 +79,7 @@ export class SuggestionsComponent {
             }
           }
         }
+        return true;
       });
   }
 
@@ -154,8 +158,7 @@ export class SuggestionsComponent {
 
   doRefresh(refresher) {
     this.referenceToOldestKey = undefined;
-    this.featured = [];
-    this.loadDocs().then(() => {
+    this.loadDocs(false, true).then(() => {
       refresher.complete();
     });
   }

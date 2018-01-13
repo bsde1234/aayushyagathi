@@ -1,4 +1,8 @@
 <ion-content style="background:lightgray">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list [virtualScroll]="favouriteList" approxItemHeight="126px">
     <div *virtualItem="let profile" style="width:100%;">
       <user-profile [profile]="profile"></user-profile>

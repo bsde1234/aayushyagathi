@@ -13,7 +13,7 @@ const THUMB_MAX_WIDTH = 200;
 const THUMB_MAX_HEIGHT = 200;
 const app = initializeApp(config().firebase);
 
-export const generateThumbnail = storage.object().onChange(event => {
+export const generatePhotoThumbnail = storage.object().onChange(event => {
   const filePath = event.data.name;
   const fileName = basename(filePath);
   const _id = basename(filePath, extname(filePath));

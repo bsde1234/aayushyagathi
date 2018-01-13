@@ -28,7 +28,10 @@ import { ErrorHanderService } from './error-handler.service';
     SharedModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {
+      scrollAssist: true,
+      autoFocusAssist: true
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

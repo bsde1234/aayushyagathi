@@ -27,7 +27,7 @@ export class personalInfoComponent {
     this.personalInfo = new FormGroup({
       firstName: new FormControl(null, [Validators.required]),
       lastName: new FormControl(null, [Validators.required]),
-      about: new FormControl(null, [Validators.required]),
+      mobile: new FormControl(null, [Validators.required]),
       gender: new FormControl(null, [Validators.required]),
       fatherName: new FormControl(null, [Validators.required]),
       dob: new FormControl(null, [Validators.required]),
@@ -45,9 +45,9 @@ export class personalInfoComponent {
     this.appService.myProfileDoc.valueChanges().subscribe(profile => {
       this.profile = profile;
       this.profile.permAddress = this.profile.permAddress || {};
-      const personalInfoValue = (({ firstName, lastName, about, gender, fatherName, dob, height,
+      const personalInfoValue = (({ firstName, lastName, mobile, gender, fatherName, dob, height,
         complexion, motherTongue, knownLanguages, permAddress: { address, city, state } }) => ({
-          firstName, lastName, about, gender, fatherName, dob, height,
+          firstName, lastName, mobile, gender, fatherName, dob, height,
           complexion, motherTongue, knownLanguages, permAddress: { address, city, state }
         }))(this.profile || { permAddress: {} });
       if (personalInfoValue.dob)

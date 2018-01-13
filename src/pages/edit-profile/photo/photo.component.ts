@@ -21,7 +21,7 @@ export class PhotoComponent {
     private loader: LoadingController,
     private toast: ToastController
   ) {
-    this.appService.myProfileDoc.snapshotChanges()
+    this.appService.myProfileDoc.valueChanges()
       .subscribe(profile => {
         this.profile = profile;
       });
@@ -47,9 +47,9 @@ export class PhotoComponent {
       allowEdit: true,
       targetHeight: 1024
     }
+    loader.present();
     this.camera.getPicture(options)
       .then((data) => {
-        loader.present();
         const name = this.profile._id + '.png';
         const uploadTask = firebase.storage().ref('profile_photos')
           .child(name)
@@ -83,7 +83,7 @@ export class PhotoComponent {
                   duration: 3000,
                   showCloseButton: true
                 }).present();
-              })
+              });
           });
       })
   }

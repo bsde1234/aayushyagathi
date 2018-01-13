@@ -49,14 +49,19 @@ export class ExpectionsComponent {
       spinner: 'dots'
     })
     this.loading.present()
-    const expectionFormValue = this.expectionsForm.value
+    const expectionFormValue = {};
+    for (let key in this.expectionsForm.value) {
+      if (expectionFormValue[key])
+        expectionFormValue[key] = this.expectionsForm.value[key];
+    }
+
     this.appService.myProfileDoc
       .update(expectionFormValue)
       .then(() => this._onSaved(), (err) => this._onSaved(err));
   }
 
   private _onSaved(err?) {
-    this.loading.dismiss()
+    this.loading.dismiss();
     if (err) throw new Error(err);
     const toast = this.toastCtrl.create({
       message: 'Expection Info Saved',
@@ -65,6 +70,6 @@ export class ExpectionsComponent {
       showCloseButton: true
     })
     toast.present()
-    this._parent.parent.select(3)
+    this._parent.parent.select(3);
   }
 }

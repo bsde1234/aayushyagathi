@@ -12,18 +12,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label color="primary" floating>First Name</ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" floating>Last Name</ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
-  </ion-list>
   <form [formGroup]="searchForm">
     <ion-list>
+      <ion-item>
+        <ion-label color="primary" floating>First Name</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Last Name</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
       <ion-item>
         <ion-label color="primary" floating>Education</ion-label>
         <ion-select formControlName="education">

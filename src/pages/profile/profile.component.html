@@ -135,12 +135,24 @@
       </ion-item-group>
     </ion-card-content>
   </ion-card>
+
+  <ion-fab bottom right *ngIf="!isModerator || true">
+    <button ion-fab color="danger" (click)="markFavourite(profileData?._id,!favourites[profileData?._id])">
+      <ion-icon [name]="favourites[profileData?._id]?'heart':'heart-outline'"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-fab bottom left *ngIf="isModerator && profileData?.isDisabled">
+    <button ion-fab color="primary" (click)="approveProfile(profileData?._id)">
+      <ion-icon name="checkbox-outline"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
-<ion-footer no-border>
+
+<!-- <ion-footer no-border *ngIf="isModerator && false">
   <ion-toolbar color="primary">
     <ion-buttons>
       <div *ngIf="favourites?favourites[profileData?._id]:false; then shortlist else shortlisted"></div>
-
       <ng-template #shortlisted>
         <button ion-button icon-left clear small (click)="markFavourite(profileData?._id,true)">
           <ion-icon name="heart-outline"></ion-icon>
@@ -155,13 +167,11 @@
         </button>
       </ng-template>
     </ion-buttons>
-
-        <!-- Implement share button in future -->
-    <!-- <ion-buttons right>
-      <button ion-button icon-left clear small>
-        <ion-icon name="share"></ion-icon>
-        <p> Share </p>
+    <ion-buttons right *ngIf="isModerator && profileData?.isDisabled">
+      <button ion-button icon-left clear small (click)="approveProfile(profileData?._id)">
+        <ion-icon name="checkbox-outline"></ion-icon>
+        <p> Approve </p>
       </button>
-    </ion-buttons> -->
+    </ion-buttons>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->

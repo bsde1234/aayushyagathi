@@ -23,6 +23,7 @@ export class ProfileComponent {
   CONSTANTS
   noPhoto: string = 'assets/imgs/placeholder.png'
   profileId: string;
+  isModerator = false;
   @ViewChild('slides') slides: Slides;
 
   constructor(private params: NavParams,
@@ -50,6 +51,7 @@ export class ProfileComponent {
       });
     this.appService.constants$.subscribe(constants => this.CONSTANTS = constants);
     this.appService.userData$.subscribe(userData => this.favourites = userData.favourites);
+    this.appService.isModerator$.subscribe(isModerator => this.isModerator = isModerator);
   }
 
   closeModal() {
@@ -76,5 +78,21 @@ export class ProfileComponent {
         }).present();
       }
     });
+  }
+
+  approveProfile(id) {
+    this.afs
+      .collection('profiles')
+      .doc(id)
+      .update({ isDisabled: false })
+      .then(() => {
+        this.toast.create({
+          message: 'User Approved',
+          duration: 1000,
+          dismissOnPageChange: true,
+          position: 'bottom',
+          showCloseButton: true
+        }).present();
+      });
   }
 }

@@ -6,10 +6,12 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { CodePush } from '@ionic-native/code-push';
 import { FCM } from '@ionic-native/fcm'
+
 import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../pages/login/login.component'
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AppService } from './app.service';
+import { EditProfileComponent } from '../pages/edit-profile/edit-profile.component';
 
 @Component({
   selector: 'page-app',
@@ -38,14 +40,18 @@ export class MyApp {
       afire.authState.subscribe((user) => {
         if (user) {
           appService.loadInitData()
-          this.rootPage = HomePage;
           const profileDoc = afs.collection('profiles').doc(user.uid);
           profileDoc
             .valueChanges()
-            .subscribe(profile => {
+            .subscribe((profile: any) => {
               if (!profile) {
                 var usrName = (user.displayName || ' ').split(' ');
-                profileDoc.set({ firstName: usrName[0], lastName: usrName[1] }, { merge: true });
+                profileDoc.set({ isDisabled: true, firstName: usrName[0], lastName: usrName[1] }, { merge: true });
+              }
+              if (profile && profile.isDisabled) {
+                this.rootPage = EditProfileComponent;
+              } else {
+                this.rootPage = HomePage;
               }
               loader.dismiss();
             });

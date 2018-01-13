@@ -1,14 +1,9 @@
-<ion-header>
-  <ion-navbar color="primary">
-    <ion-title>{{tabs?.getSelected()?.tabTitle}}</ion-title>
-  </ion-navbar>
-</ion-header>
-
 <ion-content>
   <ion-tabs color="primary">
-    <ion-tab [root]="personalInfo" tabTitle="Personal Info" tabIcon="person"></ion-tab>
-    <ion-tab [root]="occupation" tabTitle="Occupation" tabIcon="briefcase"></ion-tab>
-    <ion-tab [root]="expections" tabTitle="Expections" tabIcon="contacts"></ion-tab>
-    <ion-tab [root]="photo" tabTitle="Photos" tabIcon="camera"></ion-tab>
+    <ion-tab [root]="personalInfo" tabIcon="call"></ion-tab>
+    <ion-tab [root]="personalInfo" tabIcon="person"></ion-tab>
+    <ion-tab [root]="occupation" tabIcon="briefcase"></ion-tab>
+    <ion-tab [root]="expections" tabIcon="contacts"></ion-tab>
+    <ion-tab [root]="photo" tabIcon="camera"></ion-tab>
   </ion-tabs>
 </ion-content>

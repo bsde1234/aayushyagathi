@@ -1,3 +1,8 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Personal Info</ion-title>
+  </ion-navbar>
+</ion-header>
 <ion-content>
   <ion-list>
     <form [formGroup]="personalInfo">
@@ -10,8 +15,8 @@
         <ion-input formControlName="lastName" clearInput></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label color="primary" floating>About</ion-label>
-        <ion-textarea formControlName="about"></ion-textarea>
+        <ion-label color="primary" floating>Mobile Number</ion-label>
+        <ion-input formControlName="mobile" clearInput></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary" floating>Gender</ion-label>

@@ -20,14 +20,6 @@ export class PendingUsersComponent {
   }
 
   loadDocs(refresher?) {
-    const loading = this.loader.create({
-      content: 'Loading data...',
-      dismissOnPageChange: true,
-      spinner: 'dots'
-    });
-    if (!refresher) {
-      loading.present();
-    }
     this.afs.collection('profiles', ref => {
       let docRef = ref
         .orderBy('_id')
@@ -36,9 +28,7 @@ export class PendingUsersComponent {
     }).valueChanges()
       .subscribe(docs => {
         this.profiles = docs;
-        if (!refresher) {
-          loading.dismiss();
-        } else {
+        if (refresher) {
           refresher.complete();
         }
       });
