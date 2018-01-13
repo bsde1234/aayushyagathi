@@ -1,6 +1,5 @@
-import { config } from 'firebase-functions';
 import { document } from 'firebase-functions/lib/providers/firestore';
-import { firestore, messaging, initializeApp } from "firebase-admin";
+import { firestore, messaging } from "firebase-admin";
 
 // initializeApp(config().firebase);
 

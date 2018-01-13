@@ -3,63 +3,45 @@ import { unlinkSync } from "fs";
 import { spawn } from "child_process";
 import * as mkdirp from "mkdirp-promise";
 import { serviceAccountKey } from './serviceAccountKey'
+import { basename, dirname, join, normalize, extname } from "path";
+import { tmpdir } from "os";
 // Include a Service Account Key to use a Signed URL
-import * as gCloudStorage from "@google-cloud/storage";
 
-import { database, initializeApp } from "firebase-admin";
+import { firestore, initializeApp, storage as adminStorage } from "firebase-admin";
 
-const gcs = gCloudStorage(serviceAccountKey);
-initializeApp(config().firebase);
-
-const path = require('path');
-const os = require('os');
-
-// Max height and width of the thumbnail in pixels.
-const THUMB_MAX_HEIGHT = 200;
 const THUMB_MAX_WIDTH = 200;
-// Thumbnail prefix added to file names.
-const THUMB_PREFIX = 'thumb_';
+const THUMB_MAX_HEIGHT = 200;
+const app = initializeApp(config().firebase);
 
-/**
- * When an image is uploaded in the Storage bucket We generate a thumbnail automatically using
- * ImageMagick.
- * After the thumbnail has been generated and uploaded to Cloud Storage,
- * we write the public URL to the Firebase Realtime Database.
- */
 export const generateThumbnail = storage.object().onChange(event => {
-  // File and directory paths.
   const filePath = event.data.name;
-  const contentType = event.data.contentType; // This is the image Mimme type
-  const fileDir = path.dirname(filePath);
-  const fileName = path.basename(filePath);
-  const thumbFilePath = path.normalize(path.join(fileDir, 'thumbnails', `${THUMB_PREFIX}${fileName}`));
-  const tempLocalFile = path.join(os.tmpdir(), filePath);
-  const tempLocalDir = path.dirname(tempLocalFile);
-  const tempLocalThumbFile = path.join(os.tmpdir(), thumbFilePath);
-
-  // Exit if this is triggered on a file that is not an image.
+  const fileName = basename(filePath);
+  const _id = basename(filePath, extname(filePath));
+  const contentType = event.data.contentType;
+  const thumbFilePath = normalize(join('profile_thumbnails', `${fileName}`));
+  const tempLocalFile = join(tmpdir(), filePath);
+  const tempLocalDir = dirname(tempLocalFile);
+  console.log(event.data.bucket)
+  if (event.data.bucket === 'profile_photos') {
+    console.log('Event not on profile_photos', event.data.bucket);
+    return null
+  }
   if (!contentType.startsWith('image/')) {
     console.log('This is not an image.');
     return null;
   }
 
-  // Exit if the image is already a thumbnail.
-  if (fileName.startsWith(THUMB_PREFIX)) {
-    console.log('Already a Thumbnail.');
-    return null;
-  }
-
-  // Exit if this is a move or deletion event.
   if (event.data.resourceState === 'not_exists') {
     console.log('This is a deletion event.');
     return null;
   }
 
-  // Cloud Storage files.
-  const bucket = gcs.bucket(event.data.bucket);
+  const bucket = adminStorage(app).bucket(event.data.bucket);
+  const thumbBucket = adminStorage(app).bucket('profile_thumbnails');
   const file = bucket.file(filePath);
-  const thumbFile = bucket.file(thumbFilePath);
+  const thumbFile = thumbBucket.file(thumbFilePath);
   const metadata = { contentType: contentType };
+  const tempLocalThumbFile = join(tmpdir(), thumbFilePath);
 
   // Create the temp directory where the storage file will be downloaded.
   return mkdirp(tempLocalDir).then(() => {
@@ -72,7 +54,7 @@ export const generateThumbnail = storage.object().onChange(event => {
   }).then(() => {
     console.log('Thumbnail created at', tempLocalThumbFile);
     // Uploading the Thumbnail.
-    return bucket.upload(tempLocalThumbFile, { destination: thumbFilePath, metadata: metadata });
+    return thumbBucket.upload(tempLocalThumbFile, { destination: thumbFilePath, metadata: metadata });
   }).then(() => {
     console.log('Thumbnail uploaded to Storage at', thumbFilePath);
     // Once the image has been uploaded delete the local files to free up disk space.
@@ -94,6 +76,7 @@ export const generateThumbnail = storage.object().onChange(event => {
     const thumbFileUrl = thumbResult[0];
     const fileUrl = originalResult[0];
     // Add the URLs to the Database
-    return database().ref('images').push({ path: fileUrl, thumbnail: thumbFileUrl });
-  }).then(() => console.log('Thumbnail URLs saved to database.'));
+    return firestore().collection('profiles').doc(_id).update({ thumbUrl: thumbFileUrl, photo: fileUrl });
+  })
+    .then(() => console.log('Thumbnail URLs saved to database.'));;
 });
