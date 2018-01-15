@@ -13,16 +13,16 @@ const THUMB_MAX_WIDTH = 200;
 const THUMB_MAX_HEIGHT = 200;
 const app = initializeApp(config().firebase);
 
-export const generatePhotoThumbnail = storage.object().onChange(event => {
+export const generatePhotoThumbnail3 = storage.object().onChange(event => {
   const filePath = event.data.name;
   const fileName = basename(filePath);
   const _id = basename(filePath, extname(filePath));
   const contentType = event.data.contentType;
-  const thumbFilePath = normalize(join('profile_thumbnails', `${fileName}`));
   const tempLocalFile = join(tmpdir(), filePath);
   const tempLocalDir = dirname(tempLocalFile);
-  console.log(event.data.bucket)
-  if (event.data.bucket === 'profile_photos') {
+  const thumbFilePath = normalize(join(`thumbnail_${fileName}`));
+  console.log('bucket:', event.data.bucket)
+  if (!filePath.includes('profile_photos')) {
     console.log('Event not on profile_photos', event.data.bucket);
     return null
   }
@@ -41,7 +41,7 @@ export const generatePhotoThumbnail = storage.object().onChange(event => {
   const file = bucket.file(filePath);
   const thumbFile = thumbBucket.file(thumbFilePath);
   const metadata = { contentType: contentType };
-  const tempLocalThumbFile = join(tmpdir(), thumbFilePath);
+  const tempLocalThumbFile = join(tmpdir(), 'profile_photos', thumbFilePath);
 
   // Create the temp directory where the storage file will be downloaded.
   return mkdirp(tempLocalDir).then(() => {
@@ -50,11 +50,11 @@ export const generatePhotoThumbnail = storage.object().onChange(event => {
   }).then(() => {
     console.log('The file has been downloaded to', tempLocalFile);
     // Generate a thumbnail using ImageMagick.
-    return spawn('convert', [tempLocalFile, '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`, tempLocalThumbFile], {});
+    return spawn('convert', [tempLocalFile, '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`, thumbFilePath], {});
   }).then(() => {
     console.log('Thumbnail created at', tempLocalThumbFile);
     // Uploading the Thumbnail.
-    return thumbBucket.upload(tempLocalThumbFile, { destination: thumbFilePath, metadata: metadata });
+    return bucket.upload(tempLocalThumbFile, { destination: thumbFilePath, metadata: metadata });
   }).then(() => {
     console.log('Thumbnail uploaded to Storage at', thumbFilePath);
     // Once the image has been uploaded delete the local files to free up disk space.

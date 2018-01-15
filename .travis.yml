@@ -9,6 +9,7 @@ cache: false
 before_install:
   - export LANG=en_US.UTF-8
   - brew update
+  - sh ./build.sh
 
 install:
   # install minimum set of dependencies to run tests and linters

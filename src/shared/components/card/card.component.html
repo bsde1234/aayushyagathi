@@ -1,6 +1,6 @@
 <ion-item (click)="showProfile(profile._id)">
   <ion-thumbnail item-start>
-    <img [src]="profile?.photo||noPhoto">
+    <img [src]="profile?.thumbUrl||noPhoto">
   </ion-thumbnail>
   <h2>{{profile?.firstName}} {{profile?.lastName}}</h2>
   <p>{{CONSTANTS?.OCCUPATION[profile?.occupation]||'-'}}</p>
