@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_number": "$project_number",
+    "firebase_url": "https://ng-architect.firebaseio.com",
+    "project_id": "ng-architect",
+    "storage_bucket": "ng-architect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "$mobilesdk_app_id",
+        "android_client_info": {
+          "package_name": "com.dlinx.aayushyagathi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "$client_id1",
+          "client_type": 3
+        },
+        {
+          "client_id": "$client_id2",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "$current_key"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "$other_platform_oauth_client_client_id",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
