@@ -4,7 +4,6 @@ import { AngularFirestore } from 'angularfire2/firestore';
 
 import { ProfileComponent } from '../../profile/profile.component'
 import { AppService } from '../../../app/app.service';
-import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AdvancedSearchComponent } from '../advanced-search/advanced-search.component';
 
 @Component({

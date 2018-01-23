@@ -68,11 +68,11 @@ export class personalInfoComponent {
 
   saveAndNext() {
     const mobileNumber = this.personalInfo.get('mobile').value;
-    if (this.personalInfo.get('mobile').dirty) {
-      this.addMobileNumber(mobileNumber);
-    } else {
-      this.saveData();
-    }
+    // if (this.personalInfo.get('mobile').dirty ) {
+    //   this.addMobileNumber(mobileNumber);
+    // } else {
+    this.saveData();
+    // }
   }
 
   saveData() {
@@ -137,7 +137,7 @@ export class personalInfoComponent {
     })
     loader.present();
     var a = new firebase.auth.PhoneAuthProvider(this.afAuth.auth)
-    a.verifyPhoneNumber('+91' + mobileNumber, this.recaptchaVerifier)
+    a.verifyPhoneNumber('+91' + mobileNumber, null)
       .then((verificationId) => {
         loader.dismiss();
         this.verifyOTP(verificationId);

@@ -66,24 +66,12 @@ export class PhotoComponent {
               showCloseButton: true
             }).present();
           }, () => {
-            this.appService.myProfileDoc
-              .update({ photo: uploadTask.snapshot.downloadURL })
-              .then(() => {
-                loader.dismiss();
-                this.toast.create({
-                  message: 'Image uploaded',
-                  duration: 3000,
-                  showCloseButton: true
-                }).present();
-              })
-              .catch((err) => {
-                loader.dismiss();
-                this.toast.create({
-                  message: 'Error while uploading image.',
-                  duration: 3000,
-                  showCloseButton: true
-                }).present();
-              });
+            loader.dismiss();
+            this.toast.create({
+              message: 'Image uploaded',
+              duration: 3000,
+              showCloseButton: true
+            }).present();
           });
       })
   }

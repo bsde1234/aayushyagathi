@@ -1,82 +1,85 @@
-import { storage, config } from "firebase-functions";
+const functions = require('firebase-functions');
+const sharp = require('sharp')
+const _ = require('lodash');
+const path = require('path');
+const os = require('os');
 import { unlinkSync } from "fs";
-import { spawn } from "child_process";
-import * as mkdirp from "mkdirp-promise";
-import { serviceAccountKey } from './serviceAccountKey'
-import { basename, dirname, join, normalize, extname } from "path";
-import { tmpdir } from "os";
-// Include a Service Account Key to use a Signed URL
+import { firestore, storage } from "firebase-admin";
 
-import { firestore, initializeApp, storage as adminStorage } from "firebase-admin";
+export const generatePhotoThumbnail3 = functions.storage.object('profile_photos/{profile_Id}').onChange(event => {
 
-const THUMB_MAX_WIDTH = 200;
-const THUMB_MAX_HEIGHT = 200;
-const app = initializeApp(config().firebase);
+  const object = event.data; // The Storage object.
 
-export const generatePhotoThumbnail3 = storage.object().onChange(event => {
-  const filePath = event.data.name;
-  const fileName = basename(filePath);
-  const _id = basename(filePath, extname(filePath));
-  const contentType = event.data.contentType;
-  const tempLocalFile = join(tmpdir(), filePath);
-  const tempLocalDir = dirname(tempLocalFile);
-  const thumbFilePath = normalize(join(`thumbnail_${fileName}`));
-  console.log('bucket:', event.data.bucket)
-  if (!filePath.includes('profile_photos')) {
-    console.log('Event not on profile_photos', event.data.bucket);
-    return null
-  }
-  if (!contentType.startsWith('image/')) {
+  console.log(object)
+
+  const fileBucket = object.bucket; // The Storage bucket that contains the file.
+  const filePath = object.name; // File path in the bucket.
+  const contentType = object.contentType; // File content type.
+  const resourceState = object.resourceState; // The resourceState is 'exists' or 'not_exists' (for file/folder deletions).
+  const metageneration = object.metageneration; // Number of times metadata has been generated. New objects have a value of 1.
+  const file = storage().bucket(fileBucket).file(filePath);
+  const size = 64; // Resize target width in pixels
+
+  if (!contentType.startsWith('image/') || resourceState === 'not_exists') {
     console.log('This is not an image.');
     return null;
   }
 
-  if (event.data.resourceState === 'not_exists') {
-    console.log('This is a deletion event.');
+  if (_.includes(filePath, '_thumb')) {
+    console.log('already processed image');
     return null;
   }
 
-  const bucket = adminStorage(app).bucket(event.data.bucket);
-  const thumbBucket = adminStorage(app).bucket('profile_thumbnails');
-  const file = bucket.file(filePath);
-  const thumbFile = thumbBucket.file(thumbFilePath);
-  const metadata = { contentType: contentType };
-  const tempLocalThumbFile = join(tmpdir(), 'profile_photos', thumbFilePath);
 
-  // Create the temp directory where the storage file will be downloaded.
-  return mkdirp(tempLocalDir).then(() => {
-    // Download file from bucket.
-    return file.download({ destination: tempLocalFile });
+  const fileName = filePath.split('/').pop();
+  const bucket = storage().bucket(fileBucket);
+  const tempFilePath = path.join(os.tmpdir(), fileName);
+
+  return bucket.file(filePath).download({
+    destination: tempFilePath
   }).then(() => {
-    console.log('The file has been downloaded to', tempLocalFile);
-    // Generate a thumbnail using ImageMagick.
-    return spawn('convert', [tempLocalFile, '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`, thumbFilePath], {});
-  }).then(() => {
-    console.log('Thumbnail created at', tempLocalThumbFile);
-    // Uploading the Thumbnail.
-    return bucket.upload(tempLocalThumbFile, { destination: thumbFilePath, metadata: metadata });
-  }).then(() => {
-    console.log('Thumbnail uploaded to Storage at', thumbFilePath);
-    // Once the image has been uploaded delete the local files to free up disk space.
-    unlinkSync(tempLocalFile);
-    unlinkSync(tempLocalThumbFile);
-    // Get the Signed URLs for the thumbnail and original image.
-    const _config = {
-      action: 'read',
-      expires: '03-01-2500'
-    };
-    return Promise.all([
-      thumbFile.getSignedUrl(_config),
-      file.getSignedUrl(_config)
-    ]);
-  }).then(results => {
-    console.log('Got Signed URLs.');
-    const thumbResult = results[0];
-    const originalResult = results[1];
-    const thumbFileUrl = thumbResult[0];
-    const fileUrl = originalResult[0];
-    // Add the URLs to the Database
-    return firestore().collection('profiles').doc(_id).update({ thumbUrl: thumbFileUrl, photo: fileUrl });
+
+    const newFileName = `${fileName}_${size}_thumb.png`
+    const newFileTemp = path.join(os.tmpdir(), newFileName);
+    const newFilePath = `thumbs/${newFileName}`
+
+    sharp(tempFilePath)
+      .resize(size, null)
+      .toFile(newFileTemp, (err, info) => {
+        bucket.upload(newFileTemp, {
+          destination: newFilePath
+        }).then((e) => {
+          console.log(e)
+          console.log('Removing temp files');
+          unlinkSync(newFileTemp);
+          unlinkSync(tempFilePath);
+          const config = {
+            action: 'read',
+            expires: '03-17-2025'
+          }
+          return Promise.all([
+            e[0].getSignedUrl(config),
+            file.getSignedUrl(config)
+          ])
+        }).then((results) => {
+          const thumbResult = results[0];
+          const originalResult = results[1];
+          const thumbFileUrl = thumbResult[0];
+          const fileUrl = originalResult[0];
+          const _id = event.params.profile_Id;
+          const fName = fileName.toString().substring(0, fileName.length - 4);
+          console.log('Updating user:', fileName, fName)
+          return firestore()
+            .collection('profiles')
+            .doc(fName)
+            .update({
+              thumbUrl: thumbFileUrl,
+              photo: fileUrl
+            }).then(res => {
+              console.log('updated profile')
+              console.log(res)
+            })
+        });
+      });
   })
-    .then(() => console.log('Thumbnail URLs saved to database.'));;
-});
+})

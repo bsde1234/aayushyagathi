@@ -10,6 +10,7 @@ import { AppService } from '../../../app/app.service';
 export class FavouriteComponent {
   favouriteList: any = [];
   favourites;
+  loader;
   constructor(private appService: AppService,
     private afs: AngularFirestore) {
   }
@@ -23,22 +24,40 @@ export class FavouriteComponent {
     });
   }
 
-  private loadData(refresher?) {
+  private async loadData(refresher?) {
+    this.loader = true;
     this.afs.collection('profiles')
-      .snapshotChanges()
-      .map(data => {
-        let filtered = data.filter(doc => {
-          const result = doc.payload.doc.exists && (this.favourites.indexOf(doc.payload.doc.id) !== -1);
-          return !!result;
-        }).map(doc => doc.payload.doc.data());
-        return filtered;
+      .ref
+      .get()
+      .then(snapshot => {
+        return snapshot.docs
+          .filter(doc => {
+            return (doc.exists && (this.favourites.indexOf(doc.id) !== -1));
+          })
+          .map(doc => doc.data())
       })
-      .subscribe(data => {
-        this.favouriteList = data;
+      .then(docs => {
+        this.loader = false;
+        console.log(docs)
+        this.favouriteList = docs;
         if (refresher) {
           refresher.complete();
         }
       })
+    // .snapshotChanges()
+    // .map(data => {
+    //   let filtered = data.filter(doc => {
+    //     const result = doc.payload.doc.exists && (this.favourites.indexOf(doc.payload.doc.id) !== -1);
+    //     return !!result;
+    //   }).map(doc => doc.payload.doc.data());
+    //   return filtered;
+    // })
+    // .subscribe(data => {
+    //   this.favouriteList = data;
+    //   if (refresher) {
+    //     refresher.complete();
+    //   }
+    // })
   }
 
   doRefresh(refreshEvent) {

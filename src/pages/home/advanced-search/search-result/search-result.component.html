@@ -2,6 +2,11 @@
   <ion-refresher (ionRefresh)="loadDocs($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"></ion-refresher-content>
   </ion-refresher>
-  <user-profile [profile]="profile" *ngFor="let profile of profiles"></user-profile>
-  <label *ngIf="!profiles?.length">No profiles to approve</label>
+  <ion-list [virtualScroll]="profiles" approxItemHeight="95px" approxItemWidth="100%">
+    <div *virtualItem="let profile" style="width:100%">
+      <user-profile [profile]="profile"></user-profile>
+    </div>
+  </ion-list>
+  <label *ngIf="!profiles?.length && !loading">No profiles to approve</label>
+  <ion-spinner *ngIf="loading"></ion-spinner>
 </ion-content>

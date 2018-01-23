@@ -71,7 +71,7 @@ export class MyApp {
       })
       if (platform.is('cordova')) {
         statusBar.styleDefault();
-        splashScreen.hide();
+        // splashScreen.hide();
         // codepush.sync({}, (status) => {
         //   appService.updateStatus$.next(status);
         //   this.updateStatus = status;
@@ -90,7 +90,7 @@ export class MyApp {
   }
 
   saveFCMToken(userId, FcmToken) {
-    this.afs.collection('users').doc(userId).update({ FcmToken })
+    this.afs.collection('users').doc(userId).set({ FcmToken }, { merge: true })
   }
 }
 
