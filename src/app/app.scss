@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -16,11 +15,22 @@
 // automatically applied to the <body> element in the app.
 
 .background {
-  background-image: url("../assets/imgs/login.png");
-  background-position: -250px;
-  background-size: cover;
+    background-image: url("../assets/imgs/login.png");
+    background-position: -250px;
+    background-size: cover;
 }
 
 // .input-cover{
 //   display:none;
 // }
+img.photo {
+    width: 100%;
+}
+
+.imageSpinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    stroke: white;
+    fill: white;
+}

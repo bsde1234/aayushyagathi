@@ -5,7 +5,10 @@
 </ion-header>
 
 <ion-content>
-  <img [src]="profile?.photo || noPhoto">
+  <div style="position:relative">
+    <img class="photo" [src]="userPhoto">
+    <ion-spinner class="imageSpinner" name="bubbles" *ngIf="imageLoader"></ion-spinner>
+  </div>
   <ion-fab bottom right>
     <button ion-fab color="danger" (click)="uploadImage()">
       <ion-icon name="cloud-upload"></ion-icon>

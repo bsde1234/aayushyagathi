@@ -14,7 +14,8 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
 })
 export class PhotoComponent {
   profile;
-  noPhoto: string = 'assets/imgs/placeholder.png'
+  userPhoto: string = 'assets/imgs/placeholder.png';
+  imageLoader;
   constructor(private navCtrl: NavController,
     private camera: Camera,
     private appService: AppService,
@@ -24,6 +25,7 @@ export class PhotoComponent {
     this.appService.myProfileDoc.valueChanges()
       .subscribe(profile => {
         this.profile = profile;
+        this.loadPhoto();
       });
   }
   save() {
@@ -33,6 +35,7 @@ export class PhotoComponent {
       this.navCtrl.parent.parent.setRoot(HomePage)
     }
   }
+
   uploadImage() {
     const loader = this.loader.create({
       content: 'Saving...',
@@ -47,13 +50,14 @@ export class PhotoComponent {
       allowEdit: true,
       targetHeight: 1024
     }
+
     loader.present();
     this.camera.getPicture(options)
       .then((data) => {
         const name = this.profile._id + '.png';
         const uploadTask = firebase.storage().ref('profile_photos')
           .child(name)
-          .putString('data:image/jpeg;base64,' + data, 'data_url')
+          .putString('data:image/png;base64,' + data, 'data_url')
         uploadTask
           .on('state_changed', (snapshot: any) => {
             var progress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -74,5 +78,18 @@ export class PhotoComponent {
             }).present();
           });
       })
+  }
+
+  loadPhoto() {
+    if (this.profile.thumbUrl) {
+      this.imageLoader = true;
+      this.userPhoto = this.profile.thumbUrl;
+      const img = new Image();
+      img.onload = (evt) => {
+        this.userPhoto = this.profile.photo;
+        this.imageLoader = false;
+      }
+      img.src = this.profile.photo;
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ElementRef, NgZone } from '@angular/core'
 import { NavParams, NavController } from 'ionic-angular'
 import { AngularFirestore } from 'angularfire2/firestore';
 import { ViewChild } from '@angular/core';
@@ -11,27 +11,28 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
   selector: 'page-profile',
   templateUrl: './profile.component.html',
   styles: [`
-    .photo {
-      height: 350px !important;
-      width: calc(100vw - 20px) !important;
-      margin: auto;
+    .card-md{
+      margin: 5px 0 0 0;
+      width: 100%;
     }`]
 })
 export class ProfileComponent {
   public favourites: any
   profileData: any
   CONSTANTS
-  noPhoto: string = 'assets/imgs/placeholder.png'
+  userPhoto: string = 'assets/imgs/placeholder.png'
   profileId: string;
   isModerator = false;
-  @ViewChild('slides') slides: Slides;
+  imageLoader;
+  @ViewChild('userPhoto') elementView: ElementRef;
 
   constructor(private params: NavParams,
     private navCtrl: NavController,
     private afs: AngularFirestore,
     private appService: AppService,
     private loader: LoadingController,
-    private toast: ToastController) {
+    private toast: ToastController,
+    private ngZone: NgZone) {
   }
 
   ngOnInit() {
@@ -94,5 +95,18 @@ export class ProfileComponent {
           showCloseButton: true
         }).present();
       });
+  }
+
+  loadPhoto() {
+    if (this.profileData.thumbUrl) {
+      this.imageLoader = true;
+      this.userPhoto = this.profileData.thumbUrl;
+      const img = new Image();
+      img.onload = (evt) => {
+        this.userPhoto = this.profileData.photo;
+        this.imageLoader = false;
+      }
+      img.src = this.profileData.photo;
+    }
   }
 }

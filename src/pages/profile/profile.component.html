@@ -13,132 +13,134 @@
 
 <ion-content style="background:lightgray;">
   <ion-card>
-    <img [src]="profileData?.photo||noPhoto">
+    <div style="position:relative">
+      <img class="photo" [src]="userPhoto">
+      <ion-spinner class="imageSpinner" name="bubbles" *ngIf="imageLoader"></ion-spinner>
+    </div>
     <ion-card-content>
       <ion-card-title>
         {{profileData?.firstName}} {{profileData?.lastName}}
       </ion-card-title>
       <p>
         <ion-icon name="call"></ion-icon>
-        <a href="tel:{{profileData?.mobile}}"> {{profileData?.mobile}}</a>
+        <a href="tel:+91{{profileData?.mobile}}"> {{profileData?.mobile}}</a>
       </p>
     </ion-card-content>
   </ion-card>
-  <ion-card>
-    <ion-card-content>
-      <ion-item-group>
-        <ion-item-divider color="light">Occupation</ion-item-divider>
-        <ion-item>
-          <p>Education:</p>
-          <h2>{{ CONSTANTS?.EDUCATION[profileData?.education] }}</h2>
-          <h2 *ngIf="profileData?.education===0">{{ profileData?.otherEducation || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Occupation:</p>
-          <h2>{{ CONSTANTS?.OCCUPATION[profileData?.occupation] }}</h2>
-          <h2 *ngIf="profileData?.occupation===0">{{ profileData?.otherOccupation || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Annual Income:</p>
-          <h2>{{ CONSTANTS?.INCOME_RANGE[profileData?.income] || "-" }}</h2>
-        </ion-item>
-      </ion-item-group>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-content>
-      <ion-item-group>
-        <ion-item-divider color="light">Personal Info</ion-item-divider>
-        <ion-item>
-          <p>Father's Name:</p>
-          <h2>{{ profileData?.fatherName || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Gender:</p>
-          <h2>{{ CONSTANTS?.GENDER[profileData?.gender] || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Birthdate:</p>
-          <h2>{{ profileData?.dob | date : 'dd/MMMM/yyyy HH:mm' }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Height:</p>
-          <h2>{{ profileData?.height || "-" }} ft.</h2>
-        </ion-item>
-        <ion-item>
-          <p>Complexion:</p>
-          <h2>{{ CONSTANTS?.COMPLEXION[profileData?.complexion] || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Mothertongue:</p>
-          <h2>{{ CONSTANTS?.LANGUAGES[profileData?.motherTongue] || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Known Languages:</p>
-          <h2>
-            <span *ngFor="let lang of profileData?.knownLanguages">{{ CONSTANTS.LANGUAGES[lang] }}, </span>
-          </h2>
-        </ion-item>
-        <ion-item>
-          <p>Permnant Address</p>
-          <h2>
-            <span>{{ profileData?.permAddress?.address || "-" }}</span>
-          </h2>
-        </ion-item>
-        <ion-item>
-          <p>City</p>
-          <h2>
-            <span>{{ profileData?.permAddress?.city || "-" }}</span>
-          </h2>
-        </ion-item>
-        <ion-item>
-          <p>State</p>
-          <h2>
-            <span>{{ profileData?.permAddress?.state || "-" }}</span>
-          </h2>
-        </ion-item>
-      </ion-item-group>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-content>
-      <ion-item-group>
-        <ion-item-divider color="light">Partner Expection</ion-item-divider>
-        <ion-item>
-          <p>Education:</p>
-          <h2>{{ CONSTANTS?.EDUCATION[profileData?.partner?.education] || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Income:</p>
-          <h2>{{ CONSTANTS?.INCOME_RANGE[profileData?.partner?.income] || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Occupation:</p>
-          <h2>{{ CONSTANTS?.OCCUPATION[profileData?.partner?.occupation] || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Height:</p>
-          <h2>{{ profileData?.partner?.height || "-" }} ft.</h2>
-        </ion-item>
-        <ion-item>
-          <p>Age:</p>
-          <h2>{{ profileData?.partner?.age?.lower }} - {{ profileData?.partner?.age?.upper }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>Complexion:</p>
-          <h2>{{ CONSTANTS?.COMPLEXION[profileData?.partner?.complexion] || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>City:</p>
-          <h2>{{ profileData?.partner?.city || "-" }}</h2>
-        </ion-item>
-        <ion-item>
-          <p>State:</p>
-          <h2>{{ profileData?.partner?.state || "-" }}</h2>
-        </ion-item>
-      </ion-item-group>
-    </ion-card-content>
-  </ion-card>
+  <!-- <ion-card> -->
+  <!-- <ion-card-content> -->
+  <ion-item-group>
+    <ion-item-divider color="light">Occupation</ion-item-divider>
+    <ion-item>
+      <p>Education:</p>
+      <h2>{{ CONSTANTS?.EDUCATION[profileData?.education] || '-' }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Occupation:</p>
+      <h2>{{ CONSTANTS?.OCCUPATION[profileData?.occupation] || '-' }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Annual Income:</p>
+      <h2>{{ CONSTANTS?.INCOME_RANGE[profileData?.income] || "-" }}</h2>
+    </ion-item>
+  </ion-item-group>
+  <!-- </ion-card-content> -->
+  <!-- </ion-card> -->
+  <!-- <ion-card>
+    <ion-card-content> -->
+  <ion-item-group>
+    <ion-item-divider color="light">Personal Info</ion-item-divider>
+    <ion-item>
+      <p>Father's Name:</p>
+      <h2>{{ profileData?.fatherName || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Gender:</p>
+      <h2>{{ CONSTANTS?.GENDER[profileData?.gender] || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Birthdate:</p>
+      <h2>{{ profileData?.dob | date : 'dd/MMMM/yyyy HH:mm' }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Height:</p>
+      <h2>{{ profileData?.height || "-" }} ft.</h2>
+    </ion-item>
+    <ion-item>
+      <p>Complexion:</p>
+      <h2>{{ CONSTANTS?.COMPLEXION[profileData?.complexion] || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Mothertongue:</p>
+      <h2>{{ CONSTANTS?.LANGUAGES[profileData?.motherTongue] || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Known Languages:</p>
+      <h2>
+        <span *ngFor="let lang of profileData?.knownLanguages">{{ CONSTANTS.LANGUAGES[lang] }}, </span>
+      </h2>
+      <h2 *ngIf="!profileData?.knownLanguages?.length">-</h2>
+    </ion-item>
+    <ion-item>
+      <p>Permnant Address</p>
+      <h2>
+        <span>{{ profileData?.permAddress?.address || "-" }}</span>
+      </h2>
+    </ion-item>
+    <ion-item>
+      <p>City</p>
+      <h2>
+        <span>{{ profileData?.permAddress?.city || "-" }}</span>
+      </h2>
+    </ion-item>
+    <ion-item>
+      <p>State</p>
+      <h2>
+        <span>{{ profileData?.permAddress?.state || "-" }}</span>
+      </h2>
+    </ion-item>
+  </ion-item-group>
+  <!-- </ion-card-content>
+  </ion-card> -->
+  <!-- <ion-card>
+    <ion-card-content> -->
+  <ion-item-group>
+    <ion-item-divider color="light">Partner Expection</ion-item-divider>
+    <ion-item>
+      <p>Education:</p>
+      <h2>{{ CONSTANTS?.EDUCATION[profileData?.partner?.education] || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Income:</p>
+      <h2>{{ CONSTANTS?.INCOME_RANGE[profileData?.partner?.income] || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Occupation:</p>
+      <h2>{{ CONSTANTS?.OCCUPATION[profileData?.partner?.occupation] || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Height:</p>
+      <h2>{{ profileData?.partner?.height || "-" }} ft.</h2>
+    </ion-item>
+    <ion-item>
+      <p>Age:</p>
+      <h2>{{ profileData?.partner?.age?.lower }} - {{ profileData?.partner?.age?.upper }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>Complexion:</p>
+      <h2>{{ CONSTANTS?.COMPLEXION[profileData?.partner?.complexion] || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>City:</p>
+      <h2>{{ profileData?.partner?.city || "-" }}</h2>
+    </ion-item>
+    <ion-item>
+      <p>State:</p>
+      <h2>{{ profileData?.partner?.state || "-" }}</h2>
+    </ion-item>
+  </ion-item-group>
+  <!-- </ion-card-content>
+  </ion-card> -->
 
   <ion-fab bottom right *ngIf="!isModerator || true">
     <button ion-fab color="danger" (click)="markFavourite(profileData?._id,!favourites[profileData?._id])">
