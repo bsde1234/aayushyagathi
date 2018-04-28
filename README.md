@@ -1,5 +1,10 @@
 # aayushyagathi
-A matrimony application.
+An opensource matrimony application.
+
+# Technologies used:
+ - ionic 3.x
+ - Angular 5.x
+ - Firebase
 
 [![Build Status](https://travis-ci.org/dlinx/aayushyagathi.svg?branch=master)](https://travis-ci.org/dlinx/aayushyagathi)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c06bfd118caee71f7fcd/maintainability)](https://codeclimate.com/github/dlinx/aayushyagathi/maintainability)
